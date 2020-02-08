@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">DantehViewer</string>
+    <string name="app_name">بازدیدگیر</string>
+    <string name="opend">open menu</string>
+    <string name="closed">close</string>
 </resources>

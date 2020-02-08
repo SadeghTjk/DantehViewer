@@ -1,5 +1,5 @@
 
-package net.danteh;
+package net.danteh.dantehviewer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,13 +26,16 @@ public class Record {
     private Integer ip;
     @SerializedName("createddate")
     @Expose
-    private Object createddate;
+    private String createddate;
     @SerializedName("email")
     @Expose
     private String email;
     @SerializedName("point")
     @Expose
     private Integer point;
+    @SerializedName("links")
+    @Expose
+    private Object links;
 
     public Integer getId() {
         return id;
@@ -82,11 +85,11 @@ public class Record {
         this.ip = ip;
     }
 
-    public Object getCreateddate() {
+    public String getCreateddate() {
         return createddate;
     }
 
-    public void setCreateddate(Object createddate) {
+    public void setCreateddate(String createddate) {
         this.createddate = createddate;
     }
 
@@ -104,6 +107,14 @@ public class Record {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public Object getLinks() {
+        return links;
+    }
+
+    public void setLinks(Object links) {
+        this.links = links;
     }
 
 }

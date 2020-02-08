@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1"
+        android:enabled="true"
+        android:visible="true">
+        <item
+            android:id="@+id/home_page"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_home_run"
+            android:title="صفحه اصلی"
+            android:visible="true"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/submit_link"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_chain"
+            android:title="ثبت لینک"
+            android:visible="true"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/point_collector"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_013_review"
+            android:title="کسب امتیاز"
+            android:visible="true"
+            app:showAsAction="always" />
+    </group>
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/logout"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_logout"
+            android:title="خروج از حساب کاربری"
+            android:visible="true"
+            app:showAsAction="always" />
+    </group>
+</menu>
