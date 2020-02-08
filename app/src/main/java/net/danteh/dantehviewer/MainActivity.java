@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     MaterialButton sync_btn;
     Record user = new Record();
 
+    String number;
+    int point = 1;
     int i = 0;
     public Retrofit retrofit = null;
     public final static String TAG = "webview";
@@ -91,29 +93,33 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-//        webView.setWebViewClient(new WebViewClient() {
-//
-//            public void onPageFinished(WebView view, String url) {
-//
-//                Log.e(TAG, "onPageFinished: LOADED");
+         //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        webView.setWebViewClient(new WebViewClient() {
 
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        Toast.makeText(MainActivity.this, "یک امتیاز اضافه شد!", Toast.LENGTH_SHORT).show();
-//                        if (i < urls.length) {
-//                            webView.loadUrl(urls[i]);
-//                            i++;
-//                        }
-//                    }
-//
-//                }, 5000);
-//            }
-//        });
-//        webView.loadUrl(urls[i]);
-//        i++;
+            public void onPageFinished(WebView view, String url) {
+
+                Log.e(TAG, "onPageFinished: LOADED");
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        point++;
+                        if (i < urls.length) {
+                            ApiCaller.updatePoints(getApplicationContext(),retrofit,1,point);
+                            Toast.makeText(MainActivity.this, "یک امتیاز اضافه شد!", Toast.LENGTH_SHORT).show();
+                            pointCounter.setText(point+ " امتیاز ");
+                            webView.loadUrl(urls[i]);
+                            i++;
+                        }
+                    }
+
+                }, 20000);
+            }
+        });
+        number = pointCounter.getText().toString().replaceAll("\\D+","");
+        point = Integer.parseInt(number)+1;
+        webView.loadUrl(urls[i]);
+        i++;
 
     }
 

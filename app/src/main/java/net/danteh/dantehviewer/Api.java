@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Api {
@@ -24,5 +25,7 @@ public interface Api {
     @GET("api.php/records/users/{id}")
     Call<Record> userInfo(@Path("id") int id);
 
+    @PUT("api.php/records/users/{id}")
+    Call<Integer> updatePoints(@Path("id") int id, @Body JsonObject body);
 
 }

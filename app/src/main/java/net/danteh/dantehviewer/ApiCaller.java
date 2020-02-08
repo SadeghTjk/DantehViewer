@@ -38,6 +38,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class ApiCaller {
     public static String sessionid;
     public static String expires;
+    public static int updatedPoint;
     public static Record user = new Record();
     public static List<String> headers = new ArrayList<>();
     public static List<Record> users = new ArrayList<>();
@@ -271,6 +272,108 @@ public class ApiCaller {
         return user;
     }
 
+    public static int updatePoints(Context context, Retrofit retrofit, int id,int point) {
+        if (retrofit == null) {
+            OkHttpClient httpClient = new OkHttpClient();
 
+            OkHttpClient.Builder client = httpClient.newBuilder();
+            client.connectTimeout(10, TimeUnit.SECONDS);
+            client.readTimeout(10, TimeUnit.SECONDS);
+            client.writeTimeout(10, TimeUnit.SECONDS);
+            client.addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request original = chain.request();
+
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("Expires", expires)
+                            .header("Cookie",sessionid)
+                            .method(original.method(), original.body())
+                            .build();
+
+                    return chain.proceed(request);
+                }
+            });
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("https://danteh.net/")
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(client.build())
+                    .build();
+
+            Api apiInterface = retrofit.create(Api.class);
+
+            JsonObject gsonObject = new JsonObject();
+            try {
+                JSONObject paramObject = new JSONObject();
+                paramObject.put("point", point);
+                JsonParser jsonParser = new JsonParser();
+                gsonObject = (JsonObject) jsonParser.parse(paramObject.toString());
+                Log.e("MY gson.JSON:  ", "AS PARAMETER  " + gsonObject);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if (networkInfo.isConnected()) {
+//                    final ProgressDialog dialog;
+//                    dialog = new ProgressDialog(context);
+//                    dialog.setMessage("Loading...");
+//                    dialog.setCanceledOnTouchOutside(false);
+//                    dialog.show();
+
+                    Call<Integer> registerCall = apiInterface.updatePoints(id,gsonObject);
+                    registerCall.enqueue(new retrofit2.Callback<Integer>() {
+                        @Override
+                        public void onResponse(Call<Integer> registerCall, retrofit2.Response<Integer> response) {
+
+                            if (response.isSuccessful()) {
+                                //  dialog.dismiss();
+                                if (response.body() != null){
+                                    updatedPoint = response.body();
+                                Log.e(TAG, "onResponse:  SUUUUUUUC" );
+                                Toast.makeText(context, "" + updatedPoint+" code: "+response.code(), Toast.LENGTH_SHORT).show();}
+
+                            } else {
+                                //   dialog.dismiss();
+                                Log.e(TAG, "onResponse:  EROOOOOOOOR"+response.errorBody() +"\n "+ response.code()+"\n "+response.message() +"\n "+response.raw() );
+                                //Toast.makeText(context, "" + , Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+                            try {
+                                Log.e("Tag", "error" + t.toString());
+
+                                //    dialog.dismiss();
+                            } catch (Resources.NotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    });
+
+                } else {
+                    Log.e("Tag", "error= Alert no internet");
+
+
+                }
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return updatedPoint;
+    }
 
 }

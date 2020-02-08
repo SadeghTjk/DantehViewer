@@ -21,3 +21,15 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+*.bin
+*.bin
+*.lock
+*.ser
+.idea/libraries/Gradle__com_github_bumptech_glide_glide_4_9_0_aar.xml
+.idea/libraries/Gradle__com_github_bumptech_glide_gifdecoder_4_9_0_aar.xml
+.idea/misc.xml
+.idea/workspace.xml
+app/app.iml
+.gradle/5.4.1/fileHashes/resourceHashesCache.bin
+.gradle/5.4.1/javaCompile/javaCompile.lock
+.gradle/5.4.1/javaCompile/taskHistory.bin
