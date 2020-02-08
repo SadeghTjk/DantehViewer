@@ -144,12 +144,8 @@ public class ApiCaller {
                                     expires = response.headers().value(0);
                                     headers.add(sessionid);
                                     headers.add(expires);
-
-                                    Log.e(TAG, "onResponse: "+headers.get(0) +" \n "+headers.get(1) );
-                                    Toast.makeText(context, "ادمین وارد شد" + response.body().getUsername(), Toast.LENGTH_SHORT).show();
-                                   //
+                                    Log.e(TAG, "Admin Logged in: "+headers.get(0) +" \n "+headers.get(1) );
                                     //sessionid = (cookieList.get(0).split(";"))[0];
-                                  //
                                 }
                             } else {
                                 //   dialog.dismiss();

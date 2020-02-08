@@ -9,34 +9,38 @@
     <include layout="@layout/toolbar" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layoutDirection="rtl"
-        android:padding="10dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        >
-
-        <EditText
-            android:id="@+id/et"
-            android:layout_width="0dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/urlbutton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ems="10"
-            android:hint="URL"
-            android:inputType="textPersonName" />
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Sync"/>
+            <EditText
+                android:id="@+id/et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:hint="URL"
+                android:inputType="textPersonName" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sync" />
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/wv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
-
-    <WebView
-        android:id="@+id/wv"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_gravity="bottom"
-        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

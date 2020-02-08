@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_humberger);
 
 
-
          //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         webView.setWebViewClient(new WebViewClient() {
 

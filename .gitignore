@@ -33,3 +33,6 @@ app/app.iml
 .gradle/5.4.1/fileHashes/resourceHashesCache.bin
 .gradle/5.4.1/javaCompile/javaCompile.lock
 .gradle/5.4.1/javaCompile/taskHistory.bin
+*.bin
+*.lock
+*.ser
