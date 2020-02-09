@@ -25,7 +25,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="لینک (با http:// یا https://)"
+            android:hint="لینک (با http یا https)"
             app:boxBackgroundColor="@android:color/transparent"
             android:layout_marginTop="8dp">
             <com.google.android.material.textfield.TextInputEditText
@@ -37,8 +37,9 @@
             android:id="@+id/sendLink_btn"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="ثـبـت"
+            android:textSize="18sp"
             android:layout_gravity="center"/>
     </LinearLayout>
 

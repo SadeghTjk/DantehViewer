@@ -83,11 +83,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         //Navigation View
 
 
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.opend,R.string.closed);
-        toggle.setDrawerIndicatorEnabled(true);
-        toggle.syncState();
-        drawerLayout.addDrawerListener(toggle);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -129,13 +124,10 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
-//        switch (item.getItemId()) {
-////            case android.R.id.home:
-////                drawerLayout.openDrawer(GravityCompat.START);
-////                return true;
-////        }
-        if (toggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl">
-    <include layout="@layout/toolbar" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"/>
+    <include layout="@layout/toolbar"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

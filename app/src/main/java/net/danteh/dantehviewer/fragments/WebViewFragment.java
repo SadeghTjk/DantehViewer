@@ -93,7 +93,8 @@ public class WebViewFragment extends Fragment {
                             ApiCaller.updatePoints(getActivity(),retrofit,1,point);
                             Toast.makeText(getActivity(), "یک امتیاز اضافه شد!", Toast.LENGTH_SHORT).show();
                             headerCoin.setText(point+ " امتیاز ");
-                            webView.loadUrl(linksList.get(i).getUrl());
+                            Log.e(TAG, "run: "+linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app" );
+                            webView.loadUrl(linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app");
                             i++;
 //                            if (mListener != null) {
 //                                mListener.onCoinUpdates(coin);
@@ -112,7 +113,7 @@ public class WebViewFragment extends Fragment {
             @Override
             public void run() {
                 linksList = ApiCaller.dataLinks;
-                webView.loadUrl(linksList.get(i).getUrl());
+                webView.loadUrl(linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app");
                 i++;
             }
         },1000);
@@ -139,16 +140,7 @@ public class WebViewFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onCoinUpdates(int coin);

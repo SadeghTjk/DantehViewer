@@ -445,7 +445,7 @@ public class ApiCaller {
                                 if (response.body() != null){
                                     updatedPoint = response.body();
                                     Log.e(TAG, "onResponse:  SUUUUUUUC" );
-                                    Toast.makeText(context, "" + updatedPoint+" code: "+response.code(), Toast.LENGTH_SHORT).show();}
+                                    }
 
                             } else {
                                 //   dialog.dismiss();
@@ -536,7 +536,7 @@ public class ApiCaller {
                                 Log.e(TAG, "getlinks ApiCaller: " +" SYNCED "+ dataLinks.size());
 
                             } else {
-                                //   dialog.dismiss();
+                                progressBar.dismiss();
                                 Toast.makeText(context, "links else respone" + response.errorBody() + response.code(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -546,7 +546,7 @@ public class ApiCaller {
                             try {
                                 Log.e("Tag", "error" + t.toString());
 
-                                //    dialog.dismiss();
+                                progressBar.dismiss();
                             } catch (Resources.NotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -554,7 +554,7 @@ public class ApiCaller {
                     });
 
                 } else {
-                    Log.e("Tag", "به اینترنت متصل نیست");
+                    Log.e("Tag", "no internet available");
 
 
                 }
