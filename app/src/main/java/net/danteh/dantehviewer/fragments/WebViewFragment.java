@@ -93,7 +93,7 @@ public class WebViewFragment extends Fragment {
                             ApiCaller.updatePoints(getActivity(),retrofit,1,point);
                             Toast.makeText(getActivity(), "یک امتیاز اضافه شد!", Toast.LENGTH_SHORT).show();
                             headerCoin.setText(point+ " امتیاز ");
-                            Log.e(TAG, "run: "+linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app" );
+                            Log.e(TAG, "run: "+linksList.get(i).getUrl()+"/?utm_source=dantehview&utm_medium=app" );
                             webView.loadUrl(linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app");
                             i++;
 //                            if (mListener != null) {
@@ -113,7 +113,7 @@ public class WebViewFragment extends Fragment {
             @Override
             public void run() {
                 linksList = ApiCaller.dataLinks;
-                webView.loadUrl(linksList.get(i).getUrl()+"/?utm_source=dantehView&utm_medium=app");
+                webView.loadUrl(linksList.get(i).getUrl()+"/?utm_source=dantehview&utm_medium=app");
                 i++;
             }
         },1000);
