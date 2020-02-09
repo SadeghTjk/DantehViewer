@@ -28,4 +28,7 @@ public interface Api {
     @PUT("api.php/records/users/{id}")
     Call<Integer> updatePoints(@Path("id") int id, @Body JsonObject body);
 
+    @POST("api.php/records/links")
+    Call<Integer> sendLink(@Body JsonObject body);
+
 }
