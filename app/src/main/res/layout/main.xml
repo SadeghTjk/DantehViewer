@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/et"
@@ -38,11 +39,7 @@
                 android:text="Sync" />
         </LinearLayout>
 
-        <WebView
-            android:id="@+id/wv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
+
         <FrameLayout
             android:id="@+id/fragment_frame"
             android:layout_width="match_parent"

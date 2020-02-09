@@ -1,5 +1,6 @@
 package net.danteh.dantehviewer;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -19,16 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.Call;
-import retrofit2.Callback;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -40,9 +37,10 @@ public class ApiCaller {
     public static String expires;
     public static int linkId;
     public static int updatedPoint;
-    public static Record user = new Record();
+    public static List<Links> dataLinks = new ArrayList<>();
+    public static User user = new User();
     public static List<String> headers = new ArrayList<>();
-    public static List<Record> users = new ArrayList<>();
+    public static List<User> users = new ArrayList<>();
     public static Retrofit retrofit = null;
 //
 //    public static Api getClient() {
@@ -150,7 +148,7 @@ public class ApiCaller {
                                 }
                             } else {
                                 //   dialog.dismiss();
-                                Toast.makeText(context, "" + response.errorBody() + response.code(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "admin login" + response.errorBody() + response.code(), Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -180,7 +178,7 @@ public class ApiCaller {
       //  return headers;
     }
 
-    public static Record userInfo(Context context, Retrofit retrofit, int id) {
+    public static User userInfo(Context context, Retrofit retrofit, int id) {
         if (retrofit == null) {
             OkHttpClient httpClient = new OkHttpClient();
 
@@ -225,10 +223,10 @@ public class ApiCaller {
 //                    dialog.setCanceledOnTouchOutside(false);
 //                    dialog.show();
 
-                    Call<Record> registerCall = apiInterface.userInfo(id);
-                    registerCall.enqueue(new retrofit2.Callback<Record>() {
+                    Call<User> registerCall = apiInterface.userInfo(id);
+                    registerCall.enqueue(new retrofit2.Callback<User>() {
                         @Override
-                        public void onResponse(Call<Record> registerCall, retrofit2.Response<Record> response) {
+                        public void onResponse(Call<User> registerCall, retrofit2.Response<User> response) {
 
                             if (response.isSuccessful()) {
                                 //  dialog.dismiss();
@@ -244,7 +242,7 @@ public class ApiCaller {
                         }
 
                         @Override
-                        public void onFailure(Call<Record> call, Throwable t) {
+                        public void onFailure(Call<User> call, Throwable t) {
                             try {
                                 Log.e("Tag", "error" + t.toString());
 
@@ -342,7 +340,8 @@ public class ApiCaller {
                                 if (response.body() != null){
                                     linkId = response.body();
                                     Log.e(TAG, "onResponse:  SUUUUUUUC" );
-                                    Toast.makeText(context, "" + linkId+" code: "+response.code(), Toast.LENGTH_SHORT).show();}
+                                   // Toast.makeText(context, "" + linkId+" code: "+response.code(), Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
                                 //   dialog.dismiss();
@@ -479,6 +478,92 @@ public class ApiCaller {
         }
 
         return updatedPoint;
+    }
+
+    public static void getLinks(Context context, Retrofit retrofit, ProgressDialog progressBar) {
+        if (retrofit == null) {
+            OkHttpClient httpClient = new OkHttpClient();
+
+            OkHttpClient.Builder client = httpClient.newBuilder();
+            client.connectTimeout(10, TimeUnit.SECONDS);
+            client.readTimeout(10, TimeUnit.SECONDS);
+            client.writeTimeout(10, TimeUnit.SECONDS);
+            client.addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request original = chain.request();
+
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("Expires", expires)
+                            .header("Cookie",sessionid)
+                            .method(original.method(), original.body())
+                            .build();
+
+                    return chain.proceed(request);
+                }
+            });
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("https://danteh.net/")
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .client(client.build())
+                    .build();
+
+            Api apiInterface = retrofit.create(Api.class);
+
+            try {
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if (networkInfo.isConnected()) {
+//                    final ProgressDialog dialog;
+//                    dialog = new ProgressDialog(context);
+//                    dialog.setMessage("Loading...");
+//                    dialog.setCanceledOnTouchOutside(false);
+//                    dialog.show();
+
+                    Call<DataLinks> registerCall = apiInterface.getLinks();
+                    registerCall.enqueue(new retrofit2.Callback<DataLinks>() {
+                        @Override
+                        public void onResponse(Call<DataLinks> registerCall, retrofit2.Response<DataLinks> response) {
+
+                            if (response.isSuccessful()) {
+                                //  dialog.dismiss();
+                               // dataLinks = ;
+                                dataLinks.addAll(response.body().getRecords());
+                                progressBar.dismiss();
+                                Log.e(TAG, "getlinks ApiCaller: " +" SYNCED "+ dataLinks.size());
+
+                            } else {
+                                //   dialog.dismiss();
+                                Toast.makeText(context, "links else respone" + response.errorBody() + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<DataLinks> call, Throwable t) {
+                            try {
+                                Log.e("Tag", "error" + t.toString());
+
+                                //    dialog.dismiss();
+                            } catch (Resources.NotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                } else {
+                    Log.e("Tag", "به اینترنت متصل نیست");
+
+
+                }
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.e(TAG, "getLinks: "+dataLinks.size() );
+         // return dataLinks;
     }
 
 }

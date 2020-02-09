@@ -3,12 +3,9 @@ package net.danteh.dantehviewer;
 
 import com.google.gson.JsonObject;
 
-import java.util.List;
-
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.Call;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -23,12 +20,15 @@ public interface Api {
   //  Call<List<Users>> getAllusers();
 
     @GET("api.php/records/users/{id}")
-    Call<Record> userInfo(@Path("id") int id);
+    Call<User> userInfo(@Path("id") int id);
 
     @PUT("api.php/records/users/{id}")
     Call<Integer> updatePoints(@Path("id") int id, @Body JsonObject body);
 
     @POST("api.php/records/links")
     Call<Integer> sendLink(@Body JsonObject body);
+
+    @GET("api.php/records/links")
+    Call<DataLinks> getLinks();
 
 }

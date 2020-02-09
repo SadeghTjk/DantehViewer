@@ -1,10 +1,10 @@
-package net.danteh.dantehviewer;
 
+package net.danteh.dantehviewer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Links {
+public class LinksRecords {
 
     @SerializedName("id")
     @Expose

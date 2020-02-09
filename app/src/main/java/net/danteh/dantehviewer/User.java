@@ -4,7 +4,7 @@ package net.danteh.dantehviewer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Record {
+public class User {
 
     @SerializedName("id")
     @Expose
@@ -33,7 +33,7 @@ public class Record {
     @SerializedName("point")
     @Expose
     private Integer point;
-    @SerializedName("links")
+    @SerializedName("dataLinks")
     @Expose
     private Object links;
 
