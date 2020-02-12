@@ -42,6 +42,8 @@ public class ApiCaller {
     public static List<String> headers = new ArrayList<>();
     public static List<User> users = new ArrayList<>();
     public static Retrofit retrofit = null;
+    public static OkHttpClient.Builder client,userclient;
+    public static OkHttpClient httpClient;
 //
 //    public static Api getClient() {
 //        if (retrofit == null) {
@@ -89,9 +91,9 @@ public class ApiCaller {
 
     public static void adminloger(Context context, Retrofit retrofit) {
         if (retrofit == null) {
-            OkHttpClient httpClient = new OkHttpClient();
+            httpClient = new OkHttpClient();
 
-            OkHttpClient.Builder client = httpClient.newBuilder();
+            client = httpClient.newBuilder();
             client.connectTimeout(10, TimeUnit.SECONDS);
             client.readTimeout(10, TimeUnit.SECONDS);
             client.writeTimeout(10, TimeUnit.SECONDS);
@@ -180,13 +182,13 @@ public class ApiCaller {
 
     public static User userInfo(Context context, Retrofit retrofit, int id) {
         if (retrofit == null) {
-            OkHttpClient httpClient = new OkHttpClient();
+            httpClient = new OkHttpClient();
 
-            OkHttpClient.Builder client = httpClient.newBuilder();
-            client.connectTimeout(10, TimeUnit.SECONDS);
-            client.readTimeout(10, TimeUnit.SECONDS);
-            client.writeTimeout(10, TimeUnit.SECONDS);
-            client.addInterceptor(new Interceptor() {
+            userclient = httpClient.newBuilder();
+            userclient.connectTimeout(10, TimeUnit.SECONDS);
+            userclient.readTimeout(10, TimeUnit.SECONDS);
+            userclient.writeTimeout(10, TimeUnit.SECONDS);
+            userclient.addInterceptor(new Interceptor() {
                 @Override
                 public okhttp3.Response intercept(Chain chain) throws IOException {
                     Request original = chain.request();
@@ -205,7 +207,7 @@ public class ApiCaller {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://danteh.net/")
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(client.build())
+                    .client(userclient.build())
                     .build();
 
             Api apiInterface = retrofit.create(Api.class);
@@ -482,9 +484,9 @@ public class ApiCaller {
 
     public static void getLinks(Context context, Retrofit retrofit, ProgressDialog progressBar) {
         if (retrofit == null) {
-            OkHttpClient httpClient = new OkHttpClient();
+            httpClient = new OkHttpClient();
 
-            OkHttpClient.Builder client = httpClient.newBuilder();
+            client = httpClient.newBuilder();
             client.connectTimeout(10, TimeUnit.SECONDS);
             client.readTimeout(10, TimeUnit.SECONDS);
             client.writeTimeout(10, TimeUnit.SECONDS);

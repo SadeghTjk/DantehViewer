@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="gone">
+            android:padding="10dp">
 
             <EditText
                 android:id="@+id/et"

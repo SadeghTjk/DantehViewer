@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,6 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -23,6 +29,10 @@ import com.google.android.material.navigation.NavigationView;
 import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
 
+import java.security.Provider;
+import java.util.List;
+
+import okhttp3.Call;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener,WebViewFragment.OnFragmentInteractionListener {
@@ -49,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
 
+
         editText = findViewById(R.id.et);
         sync_btn = findViewById(R.id.button);
         toolbar = findViewById(R.id.toolbar);
@@ -74,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                     public void run() {
                         user = ApiCaller.userInfo(context,retrofit,1);
                         editText.setText(user.getEmail());
-                        updateNav();
+//                        updateNav();
                     }
                 },3000);
             }
@@ -93,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                                 .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                         break;
                     case R.id.home_page:
-                        Log.e(TAG, "onNavigationIlected: ");
+
                         break;
                     case R.id.point_collector:
                         Fragment webFragment = new WebViewFragment();
@@ -112,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
 
 
          //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
 
 
     }
