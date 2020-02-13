@@ -22,9 +22,18 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
@@ -40,12 +49,12 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
     TextView pointCounter;
-
+    int has=0;
     EditText editText;
     MaterialToolbar toolbar;
     MaterialButton sync_btn;
     User user = new User();
-
+    ParseObject gameScore;
     String number;
 
     int i = 0;
@@ -59,6 +68,24 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
 
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "getInstanceId failed", task.getException());
+//                            return;
+//                        }
+//
+//                        // Get new Instance ID token
+//                        String token = task.getResult().getToken();
+//
+//                        // Log and toast
+//                        String msg = token;
+//                        Log.e(TAG, msg);
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
         editText = findViewById(R.id.et);
         sync_btn = findViewById(R.id.button);
@@ -75,19 +102,58 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
 
         final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 
-
-
         sync_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        user = ApiCaller.userInfo(context,retrofit,1);
-                        editText.setText(user.getEmail());
-//                        updateNav();
+
+//                if(has==0) {
+                   gameScore = new ParseObject("GameTest");
+//                    gameScore.put("name", "mamadok");
+//                    gameScore.put("playerName", "shayan");
+//                    gameScore.put("link", 10);
+//                    gameScore.saveInBackground(new SaveCallback() {
+//                        @Override
+//                        public void done(ParseException e) {
+//                            if (e == null) {
+//                                // object will be your game score
+//                                Toast.makeText(context, "" + gameScore.getObjectId(), Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                // something went wrong
+//                            }
+//                        }
+//                    });
+//                    has =1;
+//                }
+//                else if (has == 1){
+
+//               ParseQuery<ParseObject> query = ParseQuery.getQuery("GameTest");
+//                query.getInBackground(gameScore.getObjectId(), new GetCallback<ParseObject>() {
+//                    public void done(ParseObject object, ParseException e) {
+//                        if (e == null) {
+//                            Log.e(TAG, "done: "+gameScore.getString("playerName"));
+//                        } else {
+//                            Log.e(TAG, "went wrong ",e );
+//                        }
+//                    }
+//                });
+                gameScore.fetchInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(context, "SUCCCCCCCCCCCCC", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "you SUC"+e.getMessage() +"\n"+e.getCode() +"\n" +e.getCause(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                },3000);
+                });
+//                }
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        user = ApiCaller.userInfo(context,retrofit,1);
+//                        editText.setText(user.getEmail());
+////                        updateNav();
+//                    }
+//                },3000);
             }
         });
 

@@ -36,3 +36,16 @@ app/app.iml
 *.bin
 *.lock
 *.ser
+*.bin
+*.lock
+.idea/libraries/Gradle__com_github_bumptech_glide_gifdecoder_4_9_0_aar.xml
+.idea/libraries/Gradle__com_github_bumptech_glide_glide_4_9_0_aar.xml
+.idea/misc.xml
+.idea/workspace.xml
+local.properties
+.idea/caches/gradle_models.ser
+.idea/caches/build_file_checksums.ser
+.gradle/buildOutputCleanup/outputFiles.bin
+.gradle/5.4.1/executionHistory/executionHistory.bin
+DantehViewer.iml
+local.properties

@@ -23,7 +23,19 @@ public class DantehApplication extends Application {
         );
         Parse.checkInit();
         Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        ParseInstallation installation =ParseInstallation.getCurrentInstallation();
+        installation.put("GCMSenderId","336238375701");
+        installation.put("FCMSenderId","336238375701");
+        installation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully installed.");
+                } else {
+                    Log.e("com.parse.push", "failed to install", e);
+                }
+            }
+        });
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {
