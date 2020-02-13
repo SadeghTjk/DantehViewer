@@ -5,7 +5,8 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:animateLayoutChanges="true">
     <include layout="@layout/toolbar"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"/>
     <LinearLayout

@@ -1,17 +1,21 @@
 package net.danteh.dantehviewer.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import net.danteh.dantehviewer.R;
 
@@ -26,8 +30,10 @@ import net.danteh.dantehviewer.R;
 public class LinkFragment extends Fragment {
 
     MaterialButton submit_btn;
-    TextInputEditText urlname_input,url_input;
-    public String urlname,url;
+    TextInputEditText urlname_input,url_input,linkShowCount;
+    TextInputLayout linkCounterInput;
+    public String urlname,url,strEnteredVal;
+    int num;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,9 +51,40 @@ public class LinkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_link, container, false);
+        getActivity().setTitle("ثبت لینک");
         submit_btn = v.findViewById(R.id.sendLink_btn);
         url_input = v.findViewById(R.id.url_input);
         urlname_input = v.findViewById(R.id.urlname_input);
+        linkShowCount = v.findViewById(R.id.link_show_count);
+        linkCounterInput = v.findViewById(R.id.link_counter_input);
+
+        //check for view number between 0-200 per day
+        linkShowCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                strEnteredVal = linkShowCount.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (!strEnteredVal.equals("")) {
+                    num = Integer.parseInt(strEnteredVal);
+                    if (num < 201) {
+                        linkShowCount.setTextColor(Color.BLACK);
+                        linkCounterInput.setError(null);
+                    } else {
+                        linkShowCount.setTextColor(Color.RED);
+                        linkCounterInput.setError("0 تا 200");
+                    }
+                }
+            }
+        });
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +96,7 @@ public class LinkFragment extends Fragment {
                 }
             }
         });
+
         return v;
     }
 

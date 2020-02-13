@@ -7,7 +7,8 @@
     android:fitsSystemWindows="true"
     android:id="@+id/drawer_layout"
     tools:context=".MainActivity"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:animateLayoutChanges="true">
         <include
             layout="@layout/main"
             android:layout_height="match_parent"

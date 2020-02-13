@@ -1,5 +1,7 @@
 package net.danteh.dantehviewer;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,23 +48,24 @@ import java.util.List;
 import okhttp3.Call;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener,WebViewFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener {
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
     TextView pointCounter;
-    int has=0;
+    int has = 0;
     EditText editText;
     MaterialToolbar toolbar;
     MaterialButton sync_btn;
     User user = new User();
     ParseObject gameScore;
     String number;
-
+    Fragment fragment;
     int i = 0;
     public Retrofit retrofit = null;
     public final static String TAG = "webview";
     Context context;
+    private int clickedNavItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             public void onClick(View view) {
 
 //                if(has==0) {
-                   gameScore = new ParseObject("GameTest");
+                //                  gameScore = new ParseObject("GameTest");
 //                    gameScore.put("name", "mamadok");
 //                    gameScore.put("playerName", "shayan");
 //                    gameScore.put("link", 10);
@@ -136,24 +141,24 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
 //                        }
 //                    }
 //                });
-                gameScore.fetchInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(context, "SUCCCCCCCCCCCCC", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "you SUC"+e.getMessage() +"\n"+e.getCode() +"\n" +e.getCause(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-//                }
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        user = ApiCaller.userInfo(context,retrofit,1);
-//                        editText.setText(user.getEmail());
-////                        updateNav();
+//                gameScore.fetchInBackground(new GetCallback<ParseObject>() {
+//                    public void done(ParseObject object, ParseException e) {
+//                        if (e == null) {
+//                            Toast.makeText(context, "SUCCCCCCCCCCCCC", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(context, "you SUC"+e.getMessage() +"\n"+e.getCode() +"\n" +e.getCause(), Toast.LENGTH_SHORT).show();
+//                        }
 //                    }
-//                },3000);
+//                });
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        user = ApiCaller.userInfo(context, retrofit, 1);
+                        editText.setText(user.getEmail());
+//                        updateNav();
+                    }
+                }, 3000);
             }
         });
 
@@ -163,21 +168,26 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.submit_link:
-                        Fragment fragment = new LinkFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                        clickedNavItem = R.id.submit_link;
+                        fragment = new LinkFragment();
+                        sync_btn.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.home_page:
-
+                        clickedNavItem = R.id.home_page;
+                        sync_btn.setVisibility(View.VISIBLE);
+                        editText.setVisibility(View.VISIBLE);
                         break;
                     case R.id.point_collector:
-                        Fragment webFragment = new WebViewFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_frame, webFragment, webFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                        clickedNavItem = R.id.point_collector;
+                        fragment = new WebViewFragment();
+                        sync_btn.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.logout:
+                        clickedNavItem = R.id.logout;
                         Log.e(TAG, "onNavigmSelected: ");
                         break;
                 }
@@ -186,18 +196,41 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             }
         });
 
+        //hack to prevent drawer lag
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
 
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                switch (clickedNavItem) {
+                    case R.id.home_page:
+                        break;
+                    case R.id.submit_link:
+                        changeFragment();
+                        break;
+                    case R.id.point_collector:
+                        changeFragment();
+                        break;
+                }
+                super.onDrawerClosed(drawerView);
+            }
+        });
 
-         //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
+        //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 
     }
 
     private void updateNav() {
-        Log.e(TAG, "updateNav: "+user.getPoint() );
-        pointCounter.setText(String.valueOf(user.getPoint())+ " امتیاز ");
+        Log.e(TAG, "updateNav: " + user.getPoint());
+        pointCounter.setText(String.valueOf(user.getPoint()) + " امتیاز ");
     }
+
+    private void changeFragment(){
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -213,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
@@ -223,12 +256,14 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     @Override
     public void onFragmentInteraction(String urlname, String url) {
 
-        int i = ApiCaller.sendLink(context,retrofit,urlname,url);
-        Log.e(TAG, "onFragmentInteraction: "+i );
+        int i = ApiCaller.sendLink(context, retrofit, urlname, url);
+        Log.e(TAG, "onFragmentInteraction: " + i);
     }
 
     @Override
     public void onCoinUpdates(int coin) {
 
     }
+
+
 }

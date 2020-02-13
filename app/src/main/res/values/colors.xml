@@ -5,4 +5,5 @@
     <color name="colorAccent">#AC6AEE</color>
     <color name="navigation_item_background_tint">#AC6AEE</color>
     <color name="statusbarColor">#FF954CFB</color>
+    <color name="errorTexts">#FF1A1A</color>
 </resources>

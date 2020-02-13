@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.LinkFragment">
     <LinearLayout
@@ -11,6 +12,14 @@
         android:orientation="vertical"
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/link_describe"
+            android:textSize="16sp"
+            android:textColor="#4D4D4D"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +42,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="تعداد نمایش در روز:"
+                android:textColor="#4D4D4D"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/link_counter_input"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:paddingTop="-10dp"
+                    android:paddingBottom="-10dp"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:errorEnabled="true"
+                    app:boxStrokeErrorColor="@color/errorTexts"
+                    app:errorTextAppearance="@style/ErrorTexts"
+                    app:errorIconDrawable="@null"
+                    android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="65dp"
+                android:layout_height="50dp"
+                android:id="@+id/link_show_count"
+                android:gravity="center"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:text="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sendLink_btn"
             android:layout_width="200dp"
