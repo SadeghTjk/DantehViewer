@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,10 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import net.danteh.dantehviewer.R;
+import net.danteh.dantehviewer.adapters.LinkTabAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,10 +35,11 @@ import net.danteh.dantehviewer.R;
 public class LinkFragment extends Fragment {
 
     MaterialButton submit_btn;
-    TextInputEditText urlname_input,url_input,linkShowCount;
+    TextInputEditText urlname_input, url_input, linkShowCount;
     TextInputLayout linkCounterInput;
-    public String urlname,url,strEnteredVal;
+    public String urlname, url, strEnteredVal;
     int num;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -92,7 +98,7 @@ public class LinkFragment extends Fragment {
                 urlname = urlname_input.getText().toString();
                 url = url_input.getText().toString();
                 if (mListener != null) {
-                    mListener.onFragmentInteraction(urlname,url);
+                    mListener.onFragmentInteraction(urlname, url);
                 }
             }
         });

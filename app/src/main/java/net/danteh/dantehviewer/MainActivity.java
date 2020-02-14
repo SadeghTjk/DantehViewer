@@ -3,6 +3,7 @@ package net.danteh.dantehviewer;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,7 +40,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import net.danteh.dantehviewer.fragments.EditLinksFragment;
 import net.danteh.dantehviewer.fragments.LinkFragment;
+import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
 
 import java.security.Provider;
@@ -48,7 +51,7 @@ import java.util.List;
 import okhttp3.Call;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener, EditLinksFragment.OnFragmentInteractionListener {
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     User user = new User();
     ParseObject gameScore;
     String number;
-    Fragment fragment;
+    Fragment webViewFragment,linkHomeFragment;
     int i = 0;
     public Retrofit retrofit = null;
     public final static String TAG = "webview";
@@ -104,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_humberger);
+
+        webViewFragment = new WebViewFragment();
+        linkHomeFragment = new LinkHomeFragment();
 
         final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 
@@ -171,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                 switch (item.getItemId()) {
                     case R.id.submit_link:
                         clickedNavItem = R.id.submit_link;
-                        fragment = new LinkFragment();
                         sync_btn.setVisibility(View.GONE);
                         editText.setVisibility(View.GONE);
                         break;
@@ -182,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                         break;
                     case R.id.point_collector:
                         clickedNavItem = R.id.point_collector;
-                        fragment = new WebViewFragment();
                         sync_btn.setVisibility(View.GONE);
                         editText.setVisibility(View.GONE);
                         break;
@@ -203,12 +207,15 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             public void onDrawerClosed(View drawerView) {
                 switch (clickedNavItem) {
                     case R.id.home_page:
+
                         break;
                     case R.id.submit_link:
-                        changeFragment();
+                        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.fragment_frame, linkHomeFragment, linkHomeFragment.getClass().getSimpleName()).addToBackStack(null).commit();
                         break;
                     case R.id.point_collector:
-                        changeFragment();
+                        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.fragment_frame, webViewFragment, webViewFragment.getClass().getSimpleName()).addToBackStack(null).commit();
                         break;
                 }
                 super.onDrawerClosed(drawerView);
@@ -223,12 +230,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     private void updateNav() {
         Log.e(TAG, "updateNav: " + user.getPoint());
         pointCounter.setText(String.valueOf(user.getPoint()) + " امتیاز ");
-    }
-
-    private void changeFragment(){
-        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-
     }
 
 
@@ -266,4 +267,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
