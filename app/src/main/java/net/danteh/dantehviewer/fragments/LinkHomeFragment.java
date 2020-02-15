@@ -41,6 +41,7 @@ public class LinkHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_link_home, container, false);
+        getActivity().setTitle("مدیریت لینک ها");
         viewPager = v.findViewById(R.id.viewpager);
         linkFragment = new LinkFragment();
         editLinkFragment = new EditLinksFragment();

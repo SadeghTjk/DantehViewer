@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et"
@@ -39,7 +38,6 @@
                 android:layout_weight="1"
                 android:text="Sync" />
         </LinearLayout>
-
 
         <FrameLayout
             android:id="@+id/fragment_frame"

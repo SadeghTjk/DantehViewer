@@ -34,6 +34,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     User user = new User();
     ParseObject gameScore;
     String number;
-    Fragment webViewFragment,linkHomeFragment;
+    Fragment webViewFragment, linkHomeFragment;
     int i = 0;
     public Retrofit retrofit = null;
     public final static String TAG = "webview";
@@ -117,45 +118,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             @Override
             public void onClick(View view) {
 
-//                if(has==0) {
-                //                  gameScore = new ParseObject("GameTest");
-//                    gameScore.put("name", "mamadok");
-//                    gameScore.put("playerName", "shayan");
-//                    gameScore.put("link", 10);
-//                    gameScore.saveInBackground(new SaveCallback() {
-//                        @Override
-//                        public void done(ParseException e) {
-//                            if (e == null) {
-//                                // object will be your game score
-//                                Toast.makeText(context, "" + gameScore.getObjectId(), Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                // something went wrong
-//                            }
-//                        }
-//                    });
-//                    has =1;
-//                }
-//                else if (has == 1){
-
-//               ParseQuery<ParseObject> query = ParseQuery.getQuery("GameTest");
-//                query.getInBackground(gameScore.getObjectId(), new GetCallback<ParseObject>() {
-//                    public void done(ParseObject object, ParseException e) {
-//                        if (e == null) {
-//                            Log.e(TAG, "done: "+gameScore.getString("playerName"));
-//                        } else {
-//                            Log.e(TAG, "went wrong ",e );
-//                        }
-//                    }
-//                });
-//                gameScore.fetchInBackground(new GetCallback<ParseObject>() {
-//                    public void done(ParseObject object, ParseException e) {
-//                        if (e == null) {
-//                            Toast.makeText(context, "SUCCCCCCCCCCCCC", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(context, "you SUC"+e.getMessage() +"\n"+e.getCode() +"\n" +e.getCause(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+                savePerson("sadegh", 999);
+                savePerson("mamadsadegh", 599);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -168,9 +132,29 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             }
         });
 
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("GameTest");
+                query.whereContains("name","sadegh");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, final ParseException e) {
+                        if (e == null) {
+                            // Adding objects into the Array
+                            for (int i = 0; i < objects.size(); i++) {
+                                int element = objects.get(i).getInt("score");
+                                Log.e(TAG, "done: " + element + "\n" + objects.get(i).getString("name"));
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+            }
+        });
         //Navigation View
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -230,6 +214,24 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     private void updateNav() {
         Log.e(TAG, "updateNav: " + user.getPoint());
         pointCounter.setText(String.valueOf(user.getPoint()) + " امتیاز ");
+    }
+
+    private void savePerson(String name, int score) {
+        gameScore = new ParseObject("GameTest");
+        gameScore.put("name", name);
+        gameScore.put("score", score);
+
+        gameScore.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                    Log.e(TAG, "done: "+gameScore.getObjectId() );
+                } else {
+                    Log.e(TAG, "error: not saved"  );
+                }
+            }
+        });
     }
 
 

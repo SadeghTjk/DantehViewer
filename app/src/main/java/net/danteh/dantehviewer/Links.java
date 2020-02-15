@@ -19,6 +19,13 @@ public class Links {
     @Expose
     private String url;
 
+    public Links(Integer id, Integer userid, String name, String url) {
+        this.id = id;
+        this.userid = userid;
+        this.name = name;
+        this.url = url;
+    }
+
     public Integer getId() {
         return id;
     }

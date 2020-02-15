@@ -57,7 +57,7 @@ public class LinkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_link, container, false);
-        getActivity().setTitle("ثبت لینک");
+
         submit_btn = v.findViewById(R.id.sendLink_btn);
         url_input = v.findViewById(R.id.url_input);
         urlname_input = v.findViewById(R.id.urlname_input);

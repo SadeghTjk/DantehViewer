@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical"
+    android:layoutDirection="rtl"
+    android:orientation="horizontal"
+    android:padding="25dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/linkname_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|center_horizontal"
+        android:gravity="center_vertical"
+        android:text="لینک صفحه اصلی" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/editlink_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/deletelink_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_delete" />
+    </LinearLayout>
+
+</LinearLayout>
