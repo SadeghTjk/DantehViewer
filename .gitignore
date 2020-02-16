@@ -49,3 +49,16 @@ local.properties
 .gradle/5.4.1/executionHistory/executionHistory.bin
 DantehViewer.iml
 local.properties
+.idea/caches/gradle_models.ser
+.idea/caches/build_file_checksums.ser
+.idea/assetWizardSettings.xml
+.gradle/buildOutputCleanup/outputFiles.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/5.4.1/javaCompile/taskHistory.bin
+.gradle/5.4.1/javaCompile/javaCompile.lock
+.gradle/5.4.1/javaCompile/classAnalysis.bin
+.gradle/5.4.1/fileHashes/fileHashes.lock
+.gradle/5.4.1/fileHashes/fileHashes.bin
+.gradle/5.4.1/executionHistory/executionHistory.lock
+.gradle/5.4.1/executionHistory/executionHistory.bin
+.idea/workspace.xml

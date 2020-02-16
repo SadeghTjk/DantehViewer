@@ -1,59 +1,74 @@
 package net.danteh.dantehviewer.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-import net.danteh.dantehviewer.MainActivity;
-import net.danteh.dantehviewer.R;
-
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import net.danteh.dantehviewer.MainActivity;
+import net.danteh.dantehviewer.R;
 
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    EditText email,password;
+    EditText email, password;
     CheckBox checkBox;
     Button signin;
-    Button signup;
+    ImageButton fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-
-//        email = (EditText)findViewById(R.id.email);
-//        password = (EditText)findViewById(R.id.password);
+        fb = findViewById(R.id.fb);
+        email = findViewById(R.id.email_input_login);
+        password = findViewById(R.id.password_input_login);
 //
 //        checkBox = (CheckBox)findViewById(R.id.checkbox);
 //
-        signin =findViewById(R.id.loginbtn);
+        signin = findViewById(R.id.loginbtn);
 
         //signup = findViewById(R.id.signup);
 
-        signin.setOnClickListener(new View.OnClickListener(){
+        signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                String mail = email.getText().toString();
+                String pass = password.getText().toString();
+
+                if (mail.isEmpty() || pass.isEmpty())
+                    Toast.makeText(LoginActivity.this, "فیلد ها را کامل پر کنید", Toast.LENGTH_SHORT).show();
+                else {
+                    ParseUser.logInInBackground(mail, pass, new LogInCallback() {
+                        public void done(ParseUser user, ParseException e) {
+                            if (user != null) {
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
+                            } else {
+                                Toast.makeText(LoginActivity.this, "SignIn:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
-//        signup.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(LoginActivity.this,SignUpActivity.class);
-//                startActivity(i);
-//            }
-//        });
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(i);
+
+            }
+        });
     }
 }

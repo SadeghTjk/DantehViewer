@@ -1,17 +1,14 @@
 package net.danteh.dantehviewer;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,34 +19,32 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.livequery.LiveQueryException;
+import com.parse.livequery.ParseLiveQueryClient;
+import com.parse.livequery.ParseLiveQueryClientCallbacks;
+import com.parse.livequery.WebSocketClient;
+import com.parse.livequery.WebSocketClientFactory;
 
 import net.danteh.dantehviewer.fragments.EditLinksFragment;
 import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
+import net.danteh.dantehviewer.login.LoginActivity;
 
-import java.security.Provider;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
-import okhttp3.Call;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements LinkFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener, EditLinksFragment.OnFragmentInteractionListener {
@@ -58,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     DrawerLayout drawerLayout;
     TextView pointCounter;
     int has = 0;
+    public static ParseLiveQueryClient parseLiveQueryClient;
     EditText editText;
     MaterialToolbar toolbar;
     MaterialButton sync_btn;
@@ -66,60 +62,76 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     String number;
     Fragment webViewFragment, linkHomeFragment;
     int i = 0;
+    Intent loginIntent;
     public Retrofit retrofit = null;
-    public final static String TAG = "webview";
+    public final static String TAG = "DANTEH VIEW";
     Context context;
     private int clickedNavItem = 0;
+    // public SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
-
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        String token = task.getResult().getToken();
-//
-//                        // Log and toast
-//                        String msg = token;
-//                        Log.e(TAG, msg);
-//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
         editText = findViewById(R.id.et);
         sync_btn = findViewById(R.id.button);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        ApiCaller.adminloger(context, retrofit);
+        // ApiCaller.adminloger(context, retrofit);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_humberger);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+        if (currentUser != null) {
+            Toast.makeText(context, "Welcome " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
+            //    sharedPreferences.edit().putString("session",currentUser.getSessionToken()).apply();
+        } else {
+            startActivity(loginIntent);
+        }
         webViewFragment = new WebViewFragment();
         linkHomeFragment = new LinkHomeFragment();
 
         final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        parseLiveQueryClient.registerListener(new ParseLiveQueryClientCallbacks() {
+
+
+            @Override
+            public void onLiveQueryClientConnected(ParseLiveQueryClient client) {
+                Log.e(TAG, "onLiveQueryClientConnected: CONNECTED");
+            }
+
+            @Override
+            public void onLiveQueryClientDisconnected(ParseLiveQueryClient client, boolean userInitiated) {
+                Log.e(TAG, "onLiveQueryClientDisconnected: "+userInitiated  );
+            }
+
+            @Override
+            public void onLiveQueryError(ParseLiveQueryClient client, LiveQueryException reason) {
+                Log.e(TAG, "onLiveQueryError: " +reason.getMessage()+"\n"+client.toString() );
+                reason.printStackTrace();
+
+            }
+
+            @Override
+            public void onSocketError(ParseLiveQueryClient client, Throwable reason) {
+                Log.e(TAG, "onSocketError: "+reason.getMessage() );
+                reason.printStackTrace();
+            }
+        });
+
         sync_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                savePerson("sadegh", 999);
-                savePerson("mamadsadegh", 599);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -136,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             @Override
             public void onClick(View view) {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameTest");
-                query.whereContains("name","sadegh");
+                query.whereContains("name", "sadegh");
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, final ParseException e) {
@@ -201,6 +213,10 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.fragment_frame, webViewFragment, webViewFragment.getClass().getSimpleName()).addToBackStack(null).commit();
                         break;
+                    case R.id.logout:
+                        ParseUser.logOutInBackground();
+                        startActivity(loginIntent);
+                        break;
                 }
                 super.onDrawerClosed(drawerView);
             }
@@ -215,25 +231,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         Log.e(TAG, "updateNav: " + user.getPoint());
         pointCounter.setText(String.valueOf(user.getPoint()) + " امتیاز ");
     }
-
-    private void savePerson(String name, int score) {
-        gameScore = new ParseObject("GameTest");
-        gameScore.put("name", name);
-        gameScore.put("score", score);
-
-        gameScore.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    // object will be your game score
-                    Log.e(TAG, "done: "+gameScore.getObjectId() );
-                } else {
-                    Log.e(TAG, "error: not saved"  );
-                }
-            }
-        });
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

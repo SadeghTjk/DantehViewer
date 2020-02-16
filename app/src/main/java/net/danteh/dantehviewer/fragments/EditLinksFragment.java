@@ -9,11 +9,23 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.livequery.SubscriptionHandling;
+
+import net.danteh.dantehviewer.DantehApplication;
 import net.danteh.dantehviewer.Links;
+import net.danteh.dantehviewer.MainActivity;
 import net.danteh.dantehviewer.R;
 import net.danteh.dantehviewer.adapters.LinkRVAdapter;
 
@@ -24,9 +36,11 @@ public class EditLinksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    MaterialButton sync;
     RecyclerView recyclerView;
     LinkRVAdapter adapter;
-    List<Links> testlink = new ArrayList<>();
+    List<ParseObject> emptyList = new ArrayList<>();
+
     public EditLinksFragment() {
         // Required empty public constructor
     }
@@ -43,23 +57,53 @@ public class EditLinksFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit_links, container, false);
 
         recyclerView = v.findViewById(R.id.links_rv);
+        sync = v.findViewById(R.id.sync_links);
+//        testlink.add(new Links(1,1,"صفحه اصلی","some url"));
+//        testlink.add(new Links(2,1,"صفحه محصولات","some url"));
+//        testlink.add(new Links(3,1,"لباسشویی اسنوا","some url"));
+//        testlink.add(new Links(3,1,"لباسشویی ال جی ","some url"));
+//        testlink.add(new Links(3,1,"یخچال ساید","some url"));
+//        testlink.add(new Links(3,1,"گوشی سامسونگ","some url"));
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
+        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+//        SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
+//        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+//            @Override
+//            public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+//                if(event.equals(SubscriptionHandling.Event.UPDATE) || event == SubscriptionHandling.Event.CREATE){
+//                    Log.e("log event: ", "onEvents: "+object.getString("urlName") );
+//                    emptyList.add(object);
+//                    adapter.notifyDataSetChanged();
+//                }
+//                else
+//                    Log.e("SUBSCRIB OUT if ", "error: " );
+//            }
+//        });
 
-        testlink.add(new Links(1,1,"صفحه اصلی","some url"));
-        testlink.add(new Links(2,1,"صفحه محصولات","some url"));
-        testlink.add(new Links(3,1,"لباسشویی اسنوا","some url"));
-        testlink.add(new Links(3,1,"لباسشویی ال جی ","some url"));
-        testlink.add(new Links(3,1,"یخچال ساید","some url"));
-        testlink.add(new Links(3,1,"گوشی سامسونگ","some url"));
+        sync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        emptyList.clear();
+                        emptyList.addAll(objects);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+//
 
-        adapter = new LinkRVAdapter(requireActivity(),testlink);
 
+        adapter = new LinkRVAdapter(requireActivity(), emptyList);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
-         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false));
-         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
         return v;
     }
 

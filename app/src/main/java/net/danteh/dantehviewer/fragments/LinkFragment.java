@@ -2,27 +2,26 @@ package net.danteh.dantehviewer.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import net.danteh.dantehviewer.R;
-import net.danteh.dantehviewer.adapters.LinkTabAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,9 +96,26 @@ public class LinkFragment extends Fragment {
             public void onClick(View view) {
                 urlname = urlname_input.getText().toString();
                 url = url_input.getText().toString();
-                if (mListener != null) {
-                    mListener.onFragmentInteraction(urlname, url);
-                }
+//                if (mListener != null) {
+//                    mListener.onFragmentInteraction(urlname, url);
+//                }
+                Log.e("link submit: ", "onClick: "+url+"\n"+urlname );
+                ParseObject alink = new ParseObject("Links");
+                alink.put("urlName",urlname);
+                alink.put("URL",url);
+                alink.put("userId", ParseUser.getCurrentUser().getObjectId());
+                alink.put("viewCount",1);
+                alink.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(requireActivity(), ""+e.getCode() +" : " +e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
