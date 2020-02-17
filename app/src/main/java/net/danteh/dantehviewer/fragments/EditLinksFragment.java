@@ -68,6 +68,7 @@ public class EditLinksFragment extends Fragment {
 //        testlink.add(new Links(3,1,"گوشی سامسونگ","some url"));
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
         query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+        query.addDescendingOrder("createdAt");
         SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
             @Override
@@ -92,6 +93,7 @@ public class EditLinksFragment extends Fragment {
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {

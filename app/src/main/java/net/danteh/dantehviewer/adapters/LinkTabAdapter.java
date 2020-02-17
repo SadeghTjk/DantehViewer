@@ -4,11 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import net.danteh.dantehviewer.fragments.EditLinksFragment;
-import net.danteh.dantehviewer.fragments.LinkFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +17,23 @@ public class LinkTabAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-
+    @NonNull
     @Override
     public Fragment getItem(int position) {
-
-        switch(position) {
-            case 0: return new LinkFragment();
-            case 1: return new EditLinksFragment();
-            default: return new LinkFragment();
-        }
-     //   return mFragmentList.get(position);
+        return mFragmentList.get(position);
     }
+
     public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+
     @Override
     public int getCount() {
         return 2;

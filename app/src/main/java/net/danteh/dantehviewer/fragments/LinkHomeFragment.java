@@ -54,6 +54,8 @@ public class LinkHomeFragment extends Fragment {
         // Set Tabs
 
         tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.ic_edit_tools);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.ic_up);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
