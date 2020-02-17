@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,19 +68,26 @@ public class EditLinksFragment extends Fragment {
 //        testlink.add(new Links(3,1,"گوشی سامسونگ","some url"));
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
         query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
-//        SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
-//        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
-//            @Override
-//            public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
-//                if(event.equals(SubscriptionHandling.Event.UPDATE) || event == SubscriptionHandling.Event.CREATE){
-//                    Log.e("log event: ", "onEvents: "+object.getString("urlName") );
-//                    emptyList.add(object);
-//                    adapter.notifyDataSetChanged();
-//                }
-//                else
-//                    Log.e("SUBSCRIB OUT if ", "error: " );
-//            }
-//        });
+        SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
+        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+            @Override
+            public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                if(event.equals(SubscriptionHandling.Event.UPDATE) || event == SubscriptionHandling.Event.CREATE){
+                    Log.e("log event: ", "onEvents: "+object.getString("urlName") );
+                    emptyList.add(object);
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+                else
+                    Log.e("SUBSCRIB OUT if ", "error: " );
+            }
+        });
 
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
