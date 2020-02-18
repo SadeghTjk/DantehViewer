@@ -60,12 +60,7 @@ public class EditLinksFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.links_rv);
         sync = v.findViewById(R.id.sync_links);
-//        testlink.add(new Links(1,1,"صفحه اصلی","some url"));
-//        testlink.add(new Links(2,1,"صفحه محصولات","some url"));
-//        testlink.add(new Links(3,1,"لباسشویی اسنوا","some url"));
-//        testlink.add(new Links(3,1,"لباسشویی ال جی ","some url"));
-//        testlink.add(new Links(3,1,"یخچال ساید","some url"));
-//        testlink.add(new Links(3,1,"گوشی سامسونگ","some url"));
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
         query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
         query.addDescendingOrder("createdAt");
@@ -107,7 +102,7 @@ public class EditLinksFragment extends Fragment {
 //
 
 
-        adapter = new LinkRVAdapter(requireActivity(), emptyList);
+        adapter = new LinkRVAdapter(requireActivity(), emptyList,getChildFragmentManager());
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);

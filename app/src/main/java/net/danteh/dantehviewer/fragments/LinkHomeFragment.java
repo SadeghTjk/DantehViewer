@@ -60,9 +60,9 @@ public class LinkHomeFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
-                Toast.makeText(requireActivity(),
-                        "Selected page position: " + tab.getPosition()+ viewPager.getCurrentItem()+getChildFragmentManager().getFragments().get(tab.getPosition()).toString(), Toast.LENGTH_SHORT).show();
+//
+//                Toast.makeText(requireActivity(),
+//                        "Selected page position: " + tab.getPosition()+ viewPager.getCurrentItem()+getChildFragmentManager().getFragments().get(tab.getPosition()).toString(), Toast.LENGTH_SHORT).show();
 
             }
 

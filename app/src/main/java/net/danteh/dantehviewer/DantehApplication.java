@@ -25,9 +25,9 @@ public class DantehApplication extends Application {
         super.onCreate();
 
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("DantehView")
-                .clientKey("DantehView27561")
-                .server("http://188.40.170.72:1337/parse/")
+                .applicationId("NotTodaySatanNotToday")
+                .clientKey("DantehView")
+                .server("http://178.63.245.234:1337/parse/")
                 .build()
         );
 

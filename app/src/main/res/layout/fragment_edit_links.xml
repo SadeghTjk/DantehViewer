@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:text="Sync Links"
         android:layout_marginStart="12dp"
-        android:id="@+id/sync_links"/>
+        android:id="@+id/sync_links"
+        android:visibility="visible"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/links_rv"
         android:layout_width="match_parent"
