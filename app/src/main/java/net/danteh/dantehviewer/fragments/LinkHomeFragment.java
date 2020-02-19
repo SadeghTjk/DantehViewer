@@ -51,8 +51,8 @@ public class LinkHomeFragment extends Fragment {
         adapter.addFragment(linkFragment, "ثبت لینک");
         adapter.addFragment(editLinkFragment, "ویرایش لینک ها");
         viewPager.setAdapter(adapter);
-        // Set Tabs
 
+        // Set Tabs
         tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.getTabAt(1).setIcon(R.drawable.ic_edit_tools);
 //        tabLayout.getTabAt(0).setIcon(R.drawable.ic_up);

@@ -62,7 +62,7 @@ public class EditLinksFragment extends Fragment {
         sync = v.findViewById(R.id.sync_links);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
-        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+        query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
         query.addDescendingOrder("createdAt");
         SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {

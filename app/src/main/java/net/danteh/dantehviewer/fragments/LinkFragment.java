@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -33,10 +34,10 @@ import net.danteh.dantehviewer.R;
  */
 public class LinkFragment extends Fragment {
 
-    MaterialButton submit_btn;
-    TextInputEditText urlname_input, url_input, linkShowCount;
-    TextInputLayout linkCounterInput;
-    public String urlname, url, strEnteredVal;
+    private MaterialButton submit_btn;
+    private TextInputEditText urlname_input, url_input, linkShowCount;
+    private TextInputLayout linkCounterInput;
+    private String urlname, url, strEnteredVal;
     int num;
 
 
@@ -99,11 +100,11 @@ public class LinkFragment extends Fragment {
 //                if (mListener != null) {
 //                    mListener.onFragmentInteraction(urlname, url);
 //                }
-                Log.e("link submit: ", "onClick: "+url+"\n"+urlname );
+                Log.e("link submit: ", "onClick: "+url+" :: "+urlname );
                 ParseObject alink = new ParseObject("Links");
                 alink.put("urlName",urlname);
                 alink.put("URL",url);
-                alink.put("userId", ParseUser.getCurrentUser().getObjectId());
+                alink.put("createdBy", ParseUser.getCurrentUser());
                 alink.put("viewCount",1);
                 alink.saveInBackground(new SaveCallback() {
                     @Override
