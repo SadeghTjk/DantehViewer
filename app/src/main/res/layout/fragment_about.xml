@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:scrollbars="none"
     android:orientation="vertical"
     tools:context=".fragments.AboutFragment" >
 
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/about"
         android:layout_marginTop="8dp"
+        android:justificationMode="inter_word"
         android:textSize="16sp" />
 
 </LinearLayout>
