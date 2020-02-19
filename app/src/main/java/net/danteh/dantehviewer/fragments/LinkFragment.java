@@ -111,6 +111,8 @@ public class LinkFragment extends Fragment {
                     public void done(ParseException e) {
                         if(e == null){
                             Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
+                            url_input.setText("");
+                            urlname_input.setText("");
                         }
                         else {
                             Toast.makeText(requireActivity(), ""+e.getCode() +" : " +e.getMessage(), Toast.LENGTH_SHORT).show();

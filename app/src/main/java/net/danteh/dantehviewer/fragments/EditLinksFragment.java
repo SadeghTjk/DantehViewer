@@ -32,6 +32,7 @@ import net.danteh.dantehviewer.R;
 import net.danteh.dantehviewer.adapters.LinkRVAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EditLinksFragment extends Fragment {
@@ -64,13 +65,22 @@ public class EditLinksFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Links");
         query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
         query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                emptyList.clear();
+              //  Collections.reverse(objects);
+                emptyList.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
         SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
             @Override
             public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
-                if(event.equals(SubscriptionHandling.Event.UPDATE) || event == SubscriptionHandling.Event.CREATE){
+                if(event == SubscriptionHandling.Event.CREATE){
                     Log.e("log event: ", "onEvents: "+object.getString("urlName") );
-                    emptyList.add(object);
+                    emptyList.add(0,object);
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
                         @Override

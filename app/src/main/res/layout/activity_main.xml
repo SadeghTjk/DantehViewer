@@ -14,7 +14,6 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
 
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
         android:theme="@style/NavigationItemNoRipple"
@@ -24,5 +23,6 @@
         app:insetForeground="@android:color/transparent"
         app:itemBackground="@drawable/background_navigation_view_item"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/my_navigation_items" />
+        app:menu="@menu/my_navigation_items" >
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

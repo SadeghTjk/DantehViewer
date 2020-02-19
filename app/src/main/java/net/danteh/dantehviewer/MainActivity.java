@@ -35,7 +35,9 @@ import com.parse.livequery.ParseLiveQueryClientCallbacks;
 import com.parse.livequery.WebSocketClient;
 import com.parse.livequery.WebSocketClientFactory;
 
+import net.danteh.dantehviewer.fragments.AboutFragment;
 import net.danteh.dantehviewer.fragments.EditLinksFragment;
+import net.danteh.dantehviewer.fragments.GuideFragment;
 import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     User user = new User();
     ParseObject gameScore;
     String number;
-    Fragment webViewFragment, linkHomeFragment;
+    Fragment webViewFragment, linkHomeFragment,guideFragment,aboutFragment;
     int i = 0;
     Intent loginIntent;
     public Retrofit retrofit = null;
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         }
         webViewFragment = new WebViewFragment();
         linkHomeFragment = new LinkHomeFragment();
+        aboutFragment = new AboutFragment();
+        guideFragment = new GuideFragment();
 
         final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 
@@ -136,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        user = ApiCaller.userInfo(context, retrofit, 1);
-                        editText.setText(user.getEmail());
+   //                     user = ApiCaller.userInfo(context, retrofit, 1);
+   //                     editText.setText(user.getEmail());
 //                        updateNav();
                     }
                 }, 3000);
@@ -186,6 +190,16 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                         sync_btn.setVisibility(View.GONE);
                         editText.setVisibility(View.GONE);
                         break;
+                    case R.id.about_us:
+                        clickedNavItem = R.id.about_us;
+                        sync_btn.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
+                        break;
+                    case R.id.guide:
+                        clickedNavItem = R.id.guide;
+                        sync_btn.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
+                        break;
                     case R.id.logout:
                         clickedNavItem = R.id.logout;
                         Log.e(TAG, "onNavigmSelected: ");
@@ -212,6 +226,14 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                     case R.id.point_collector:
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.fragment_frame, webViewFragment, webViewFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                        break;
+                    case R.id.about_us:
+                        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.fragment_frame, aboutFragment, aboutFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                        break;
+                    case R.id.guide:
+                        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.fragment_frame, guideFragment, guideFragment.getClass().getSimpleName()).addToBackStack(null).commit();
                         break;
                     case R.id.logout:
                         ParseUser.logOutInBackground();

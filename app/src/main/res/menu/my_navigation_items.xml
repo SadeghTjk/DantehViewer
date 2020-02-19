@@ -30,6 +30,22 @@
             android:title="کسب امتیاز"
             android:visible="true"
             app:showAsAction="always" />
+        <item
+            android:id="@+id/about_us"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_info"
+            android:title="درباره ما"
+            android:visible="true"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/guide"
+            android:checkable="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_book"
+            android:title="راهنما"
+            android:visible="true"
+            app:showAsAction="always" />
     </group>
     <group android:id="@+id/group2">
         <item
