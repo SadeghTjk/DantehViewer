@@ -28,12 +28,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.livequery.LiveQueryException;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.ParseLiveQueryClientCallbacks;
-import com.parse.livequery.WebSocketClient;
-import com.parse.livequery.WebSocketClientFactory;
 
 import net.danteh.dantehviewer.fragments.AboutFragment;
 import net.danteh.dantehviewer.fragments.EditLinksFragment;
@@ -43,8 +40,6 @@ import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
 import net.danteh.dantehviewer.login.LoginActivity;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
 import retrofit2.Retrofit;
@@ -102,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         linkHomeFragment = new LinkHomeFragment();
         aboutFragment = new AboutFragment();
         guideFragment = new GuideFragment();
+
+
 
         final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#b388ff</color>
-    <color name="colorPrimaryDark">#805ACB</color>
+    <color name="colorPrimary">#FF954CFB</color>
+    <color name="colorPrimaryDark">#FF954CFB</color>
     <color name="colorAccent">#AC6AEE</color>
     <color name="navigation_item_background_tint">#AC6AEE</color>
     <color name="statusbarColor">#FF954CFB</color>
     <color name="errorTexts">#FF1A1A</color>
+    <color name="colorPrimary2">#b388ff</color>
+    <color name="colorPrimaryDark2">#805ACB</color>
 </resources>

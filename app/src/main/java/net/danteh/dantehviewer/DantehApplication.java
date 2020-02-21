@@ -1,20 +1,15 @@
 package net.danteh.dantehviewer;
 
 import android.app.Application;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.ParsePush;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.livequery.LiveQueryException;
 import com.parse.livequery.ParseLiveQueryClient;
-import com.parse.livequery.ParseLiveQueryClientCallbacks;
+
+import ir.tapsell.sdk.Tapsell;
 
 public class DantehApplication extends Application {
    // public SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences();
@@ -46,8 +41,7 @@ public class DantehApplication extends Application {
                 }
             }
         });
-
-
+        Tapsell.initialize(this, "ightjqhercgjesqefpfmmlinharmaihnfpiinccjthsljdaqhoplsktretjbglkhcbblsh");
 
 //        ParsePush.subscribeInBackground("", new SaveCallback() {
 //            @Override
