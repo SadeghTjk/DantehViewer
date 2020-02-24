@@ -89,23 +89,14 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
 
         if (currentUser != null) {
             Toast.makeText(context, "Welcome " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
-            //    sharedPreferences.edit().putString("session",currentUser.getSessionToken()).apply();
         } else {
             startActivity(loginIntent);
         }
         webViewFragment = new WebViewFragment();
         linkHomeFragment = new LinkHomeFragment();
-        aboutFragment = new AboutFragment();
-        guideFragment = new GuideFragment();
-
-
-
-        final String[] urls = {"https://www.all.ir/", "https://www.all.ir/%d8%b3%d8%a7%d9%86%d8%af%d8%a8%d8%a7%d8%b1-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%da%af-hw-j7591/", "https://www.google.com/"};
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         parseLiveQueryClient.registerListener(new ParseLiveQueryClientCallbacks() {
-
-
             @Override
             public void onLiveQueryClientConnected(ParseLiveQueryClient client) {
                 Log.e(TAG, "onLiveQueryClientConnected: CONNECTED");
@@ -130,43 +121,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             }
         });
 
-        sync_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-   //                     user = ApiCaller.userInfo(context, retrofit, 1);
-   //                     editText.setText(user.getEmail());
-//                        updateNav();
-                    }
-                }, 3000);
-            }
-        });
-
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("GameTest");
-                query.whereContains("name", "sadegh");
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, final ParseException e) {
-                        if (e == null) {
-                            // Adding objects into the Array
-                            for (int i = 0; i < objects.size(); i++) {
-                                int element = objects.get(i).getInt("score");
-                                Log.e(TAG, "done: " + element + "\n" + objects.get(i).getString("name"));
-                            }
-                        } else {
-
-                        }
-                    }
-                });
-
-            }
-        });
         //Navigation View
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -188,11 +142,13 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                         editText.setVisibility(View.GONE);
                         break;
                     case R.id.about_us:
+                        aboutFragment = new AboutFragment();
                         clickedNavItem = R.id.about_us;
                         sync_btn.setVisibility(View.GONE);
                         editText.setVisibility(View.GONE);
                         break;
                     case R.id.guide:
+                        guideFragment = new GuideFragment();
                         clickedNavItem = R.id.guide;
                         sync_btn.setVisibility(View.GONE);
                         editText.setVisibility(View.GONE);

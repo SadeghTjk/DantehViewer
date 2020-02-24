@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +24,14 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import net.danteh.dantehviewer.DataLinks;
 import net.danteh.dantehviewer.Links;
 import net.danteh.dantehviewer.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ir.tapsell.sdk.Tapsell;
@@ -45,15 +48,16 @@ public class WebViewFragment extends Fragment {
     public Retrofit retrofit = null;
     private WebView webView;
     NavigationView navigationView;
-    ProgressDialog progressBar;
+    ProgressBar progressBar;
     MutableLiveData<DataLinks> liveLinks;
-    MaterialButton refresh_btn;
+    MaterialButton start_btn;
     List<Links> linksList = new ArrayList<>();
-    TextView headerCoin;
-    List<ParseObject> linksObject = new ArrayList<>();
-    int i = 0;
+    TextView headerCoin,linksCounter;
+    List<ParseObject> linksObject = new ArrayList<>(), alreadyViewed = new ArrayList<>();
+    int i = 0, count =0,b;
     int point = 1;
     String AD_ID;
+    ParseUser user;
     private OnFragmentInteractionListener mListener;
 
     public WebViewFragment() {
@@ -62,6 +66,7 @@ public class WebViewFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        user = ParseUser.getCurrentUser();
 //        progressBar = new ProgressDialog(getActivity());
 //        progressBar.setMessage("دریافت لینک ها...");
 //        progressBar.show();
@@ -83,23 +88,16 @@ public class WebViewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_web_view, container, false);
         webView = v.findViewById(R.id.wv);
         webView.getSettings().setJavaScriptEnabled(true);
-        refresh_btn = v.findViewById(R.id.refresh_btn);
+        start_btn = v.findViewById(R.id.start_btn);
+        progressBar = v.findViewById(R.id.progress_refresh);
+        linksCounter = v.findViewById(R.id.avaiable_links_count);
 
         navigationView = getActivity().findViewById(R.id.navigation);
         View headerView = navigationView.getHeaderView(0);
         headerCoin = headerView.findViewById(R.id.point_counter);
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Links");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null)
-                    linksObject = objects;
-                else
-                    Toast.makeText(getActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        updateSiteLinks();
 
-            }
-        });
 //        LinksViewModel linksViewModel = ViewModelProviders.of(requireActivity()).get(LinksViewModel.class);
 ////        linksViewModel.getLinks().observe(requireActivity(), links -> {
 ////            linksList.addAll(links.getRecords());
@@ -127,37 +125,31 @@ public class WebViewFragment extends Fragment {
         showOptions.setBackDisabled(true);
         showOptions.setImmersiveMode(true);
         showOptions.setShowDialog(true);
-        headerCoin.setTextSize(25);
+        Tapsell.showAd(getActivity(),
+                "5e4fd6aa7e2d1e000164265a",
+                AD_ID,
+                showOptions,
+                new TapsellAdShowListener() {
+                    @Override
+                    public void onOpened() {
+                    }
 
-        refresh_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Tapsell.showAd(getActivity(),
-                        "5e4fd6aa7e2d1e000164265a",
-                        AD_ID,
-                        showOptions,
-                        new TapsellAdShowListener() {
-                            @Override
-                            public void onOpened() {
-                            }
+                    @Override
+                    public void onClosed() {
+                    }
 
-                            @Override
-                            public void onClosed() {
-                            }
+                    @Override
+                    public void onError(String message) {
+                    }
 
-                            @Override
-                            public void onError(String message) {
-                            }
+                    @Override
+                    public void onRewarded(boolean completed) {
+                        if (completed)
+                            headerCoin.setText("999 امتیاز");
 
-                            @Override
-                            public void onRewarded(boolean completed) {
-                                if (completed)
-                                    headerCoin.setText("999 امتیاز");
+                    }
+                });
 
-                            }
-                        });
-            }
-        });
 
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
@@ -170,12 +162,16 @@ public class WebViewFragment extends Fragment {
                             //ApiCaller.updatePoints(getActivity(),retrofit,1,point);
                             Toast.makeText(getActivity(), "یک امتیاز اضافه شد!", Toast.LENGTH_SHORT).show();
                             headerCoin.setText(point + " امتیاز ");
+                            linksCounter.setText(String.valueOf(count));
+                            count--;
+                            user.getRelation("viewedLinks").add(linksObject.get(i));
+                            user.saveInBackground();
                             webView.loadUrl(linksObject.get(i).getString("URL") + "/?utm_source=dantehView&utm_medium=app");
                             i++;
 //                            if (mListener != null) {
 //                                mListener.onCoinUpdates(coin);
 //                            }
-                        }
+                        }//else i=0;
                     }
 
                 }, 3000);
@@ -185,14 +181,21 @@ public class WebViewFragment extends Fragment {
 //
         String number = headerCoin.getText().toString().replaceAll("\\D+", "");
         point = Integer.parseInt(number) + 1;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //linksList = ApiCaller.dataLinks;
+
+        start_btn.setOnClickListener(view -> {
+            //linksList = ApiCaller.dataLinks;
+            if(i>linksObject.size()-1){
+                progressBar.setVisibility(View.VISIBLE);
+                updateSiteLinks();
+                Toast.makeText(getActivity(), "لینک", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                progressBar.setVisibility(View.INVISIBLE);
                 webView.loadUrl(linksObject.get(i).getString("URL") + "/?utm_source=dantehview&utm_medium=app");
                 i++;
+                count--;
             }
-        }, 1000);
+        });
 
 
         return v;
@@ -220,5 +223,44 @@ public class WebViewFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onCoinUpdates(int coin);
+    }
+
+    private void updateSiteLinks(){
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query2 = user.getRelation("viewedLinks").getQuery();
+        query2.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e == null){
+                    alreadyViewed = objects;
+                    Log.e(TAG, "done: "+alreadyViewed.size() + " : "+alreadyViewed.get(0).getString("URL") );
+                }
+                else
+                    Toast.makeText(getActivity(), "query2 : " + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Links");
+        query.whereNotEqualTo("createdBy", ParseUser.getCurrentUser());
+        Collection<String> already = new ArrayList<>();
+
+        for(int g=0;g<alreadyViewed.size();g++)
+            already.add(alreadyViewed.get(g).getObjectId());
+
+        query.whereNotContainedIn("objectId",already);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null){
+                    linksObject = objects;
+                    count = objects.size()-1;
+                }
+                else
+                    Toast.makeText(getActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 }
