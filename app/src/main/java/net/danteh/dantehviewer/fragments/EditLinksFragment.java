@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
 
 import net.danteh.dantehviewer.DantehApplication;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static net.danteh.dantehviewer.MainActivity.parseLiveQueryClient;
+
 public class EditLinksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -43,6 +46,7 @@ public class EditLinksFragment extends Fragment {
     RecyclerView recyclerView;
     LinkRVAdapter adapter;
     List<ParseObject> emptyList = new ArrayList<>();
+
 
     public EditLinksFragment() {
         // Required empty public constructor
@@ -74,7 +78,7 @@ public class EditLinksFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-        SubscriptionHandling<ParseObject> subscriptionHandling = MainActivity.parseLiveQueryClient.subscribe(query);
+        SubscriptionHandling<ParseObject> subscriptionHandling = parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
             @Override
             public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {

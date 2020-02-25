@@ -14,7 +14,6 @@ import ir.tapsell.sdk.Tapsell;
 public class DantehApplication extends Application {
    // public SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences();
    private static final String TAG = "DANTEHAPP";
-    public static ParseLiveQueryClient parseLiveQueryClient;
     @Override
     public void onCreate() {
         super.onCreate();

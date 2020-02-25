@@ -247,14 +247,14 @@ public class WebViewFragment extends Fragment {
             }
         });
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Links");
+        ParseQuery<ParseObject> query = new ParseQuery<>("Links");
         query.whereNotEqualTo("createdBy", ParseUser.getCurrentUser());
         Collection<String> already = new ArrayList<>();
 
         for(int g=0;g<alreadyViewed.size();g++)
             already.add(alreadyViewed.get(g).getObjectId());
 
-        query.whereNotContainedIn("objectId",already);
+        query.whereNotContainedIn("viewedLinks",already);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -262,6 +262,7 @@ public class WebViewFragment extends Fragment {
                     linksObject = objects;
                     count = objects.size()-1;
                     linksCounter.setText(String.valueOf(count));
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 }
                 else

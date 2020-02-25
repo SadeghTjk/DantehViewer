@@ -7,122 +7,125 @@
     android:layoutDirection="rtl"
     android:theme="@style/statusBarStyle"
     tools:context=".MainActivity">
+
     <com.github.florent37.shapeofview.shapes.ArcView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        app:shape_arc_cropDirection=""
-        app:shape_arc_height="20dp"
-        app:shape_arc_position="bottom"
-        >
+        app:shape_arc_height="30dp"
+        app:shape_arc_position="bottom">
 
-        <!-- YOUR CONTENT -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="650dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_login"
+            android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/arc_gradiant"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <ImageView
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_login"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:visibility="gone"/>
-
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:layout_margin="?actionBarSize"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:textColor="#fff"
-            android:text="ورود به حساب"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="?actionBarSize"
+                android:text="ورود به حساب"
+                android:textColor="#fff"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_input_login"
-                android:textColor="#fff"
-                android:textColorHint="#eee"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:hint="ایمیل"
-                android:textDirection="rtl"
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:layout_margin="20dp"
                 android:background="@drawable/rounded_corner"
+                android:hint="ایمیل"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="#fff"
+                android:textColorHint="#eee"
+                android:textDirection="rtl"
                 android:textSize="17sp" />
 
-        <EditText
-            android:id="@+id/password_input_login"
-            android:textColor="#fff"
-            android:textColorHint="#eee"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:hint="پسوورد"
-            android:textDirection="rtl"
-            android:inputType="textPassword"
-            android:layout_margin="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@drawable/rounded_corner"
-            android:textSize="17sp" />
-        <Button
-            android:id="@+id/loginbtn"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:background="@drawable/round_corner_buttom"
-            android:text="ورود"
-            android:textColor="#323232"
-            android:paddingStart="8dp"
-            android:paddingEnd="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginTop="40dp"
-            android:textColor="#fff"
-            android:text="رمزتو فراموش کردی؟"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/password_input_login"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_margin="20dp"
+                android:background="@drawable/rounded_corner"
+                android:hint="پسوورد"
+                android:gravity="center"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="#fff"
+                android:textColorHint="#eee"
+                android:textDirection="rtl"
+                android:textSize="17sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginbtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                app:cornerRadius="10dp"
+                app:rippleColor="@color/colorPrimary"
+                android:text="ورود"
+                android:backgroundTint="#fff"
+                android:textColor="#323232" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="30dp"
+                android:text="رمزتو فراموش کردی؟"
+                android:textColor="#ddd"
+                android:textSize="16sp" />
+        </LinearLayout>
     </com.github.florent37.shapeofview.shapes.ArcView>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <TextView
-            android:layout_marginBottom="10dp"
-            android:text="یا ثبت نام کنید"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="یا ثبت نام کنید" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <ImageButton
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/google"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/google" />
+
             <ImageButton
                 android:id="@+id/fb"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/facebook_box"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:background="@drawable/facebook_box" />
+
             <ImageButton
-                android:background="@drawable/twitter"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:background="@drawable/twitter" />
         </LinearLayout>
 
 
