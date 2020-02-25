@@ -54,4 +54,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.github.parse-community:ParseLiveQuery-Android:1.1.0'
     implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.5.0'
+    implementation 'com.github.florent37:shapeofview:1.4.7'
 }
