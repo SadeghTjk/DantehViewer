@@ -125,30 +125,36 @@ public class WebViewFragment extends Fragment {
         showOptions.setBackDisabled(true);
         showOptions.setImmersiveMode(true);
         showOptions.setShowDialog(true);
-        Tapsell.showAd(getActivity(),
-                "5e4fd6aa7e2d1e000164265a",
-                AD_ID,
-                showOptions,
-                new TapsellAdShowListener() {
-                    @Override
-                    public void onOpened() {
-                    }
 
-                    @Override
-                    public void onClosed() {
-                    }
+        headerCoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tapsell.showAd(getActivity(),
+                        "5e4fd6aa7e2d1e000164265a",
+                        AD_ID,
+                        showOptions,
+                        new TapsellAdShowListener() {
+                            @Override
+                            public void onOpened() {
+                            }
 
-                    @Override
-                    public void onError(String message) {
-                    }
+                            @Override
+                            public void onClosed() {
+                            }
 
-                    @Override
-                    public void onRewarded(boolean completed) {
-                        if (completed)
-                            headerCoin.setText("999 امتیاز");
+                            @Override
+                            public void onError(String message) {
+                            }
 
-                    }
-                });
+                            @Override
+                            public void onRewarded(boolean completed) {
+                                if (completed)
+                                    headerCoin.setText("999 امتیاز");
+
+                            }
+                        });
+            }
+        });
 
 
         webView.setWebViewClient(new WebViewClient() {
@@ -255,6 +261,8 @@ public class WebViewFragment extends Fragment {
                 if (e == null){
                     linksObject = objects;
                     count = objects.size()-1;
+                    linksCounter.setText(String.valueOf(count));
+
                 }
                 else
                     Toast.makeText(getActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();

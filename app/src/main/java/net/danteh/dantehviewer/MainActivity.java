@@ -19,6 +19,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -39,6 +42,7 @@ import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
 import net.danteh.dantehviewer.login.LoginActivity;
+import net.danteh.dantehviewer.viewmodels.MainViewModel;
 
 import java.util.List;
 
@@ -50,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     DrawerLayout drawerLayout;
     TextView pointCounter;
     int has = 0;
-    public static ParseLiveQueryClient parseLiveQueryClient;
     EditText editText;
     MaterialToolbar toolbar;
     MaterialButton sync_btn;
@@ -87,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         ParseUser currentUser = ParseUser.getCurrentUser();
         loginIntent = new Intent(MainActivity.this, LoginActivity.class);
 
+        MainViewModel model = new ViewModelProvider(this).get(MainViewModel.class);
+        model.setupLiveQuery().observe(this, s -> { });
+
         if (currentUser != null) {
             Toast.makeText(context, "Welcome " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
         } else {
@@ -94,32 +100,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         }
         webViewFragment = new WebViewFragment();
         linkHomeFragment = new LinkHomeFragment();
-
-        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-        parseLiveQueryClient.registerListener(new ParseLiveQueryClientCallbacks() {
-            @Override
-            public void onLiveQueryClientConnected(ParseLiveQueryClient client) {
-                Log.e(TAG, "onLiveQueryClientConnected: CONNECTED");
-            }
-
-            @Override
-            public void onLiveQueryClientDisconnected(ParseLiveQueryClient client, boolean userInitiated) {
-                Log.e(TAG, "onLiveQueryClientDisconnected: "+userInitiated  );
-            }
-
-            @Override
-            public void onLiveQueryError(ParseLiveQueryClient client, LiveQueryException reason) {
-                Log.e(TAG, "onLiveQueryError: " +reason.getMessage()+"\n"+client.toString() );
-                reason.printStackTrace();
-
-            }
-
-            @Override
-            public void onSocketError(ParseLiveQueryClient client, Throwable reason) {
-                Log.e(TAG, "onSocketError: "+reason.getMessage() );
-                reason.printStackTrace();
-            }
-        });
 
         //Navigation View
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -226,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         else
             super.onBackPressed();
     }
-
 
     @Override
     public void onFragmentInteraction(String urlname, String url) {
