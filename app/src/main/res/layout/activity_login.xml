@@ -9,11 +9,13 @@
     tools:context=".MainActivity">
 
     <com.github.florent37.shapeofview.shapes.ArcView
+        android:id="@+id/arcview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
         app:shape_arc_height="30dp"
-        app:shape_arc_position="bottom">
+        app:shape_arc_position="bottom"
+        android:transitionName="lineartrans">
 
         <ImageView
             android:layout_width="match_parent"
@@ -24,6 +26,7 @@
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/arc_gradiant"
@@ -40,19 +43,19 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_input_login"
+                android:id="@+id/user_input_login"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:layout_margin="20dp"
                 android:background="@drawable/rounded_corner"
-                android:hint="ایمیل"
-                android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:hint="نام کاربری"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textColor="#fff"
-                android:textColorHint="#eee"
+                android:textColorHint="#ddd"
                 android:textDirection="rtl"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:transitionName="usernametrans" />
 
             <EditText
                 android:id="@+id/password_input_login"
@@ -61,24 +64,25 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/rounded_corner"
                 android:hint="پسوورد"
-                android:gravity="center"
                 android:inputType="textPassword"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textColor="#fff"
-                android:textColorHint="#eee"
+                android:textColorHint="#ddd"
                 android:textDirection="rtl"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:transitionName="passtrans" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginbtn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                app:cornerRadius="10dp"
-                app:rippleColor="@color/colorPrimary"
-                android:text="ورود"
                 android:backgroundTint="#fff"
-                android:textColor="#323232" />
+                android:text="ورود"
+                android:textColor="#323232"
+                android:transitionName="loginbtn"
+                app:cornerRadius="10dp"
+                app:rippleColor="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -13,27 +13,30 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="100dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/transparent">
 
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/signup_field_backg"
             android:drawablePadding="10dp"
             android:hint="نام کاربری"
             android:inputType="textPersonName"
-            android:padding="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:transitionName="usernametrans"/>
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
@@ -41,7 +44,8 @@
             android:drawablePadding="10dp"
             android:hint="ایمیل"
             android:inputType="textEmailAddress"
-            android:padding="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
             android:textSize="14sp" />
@@ -49,7 +53,7 @@
         <EditText
             android:id="@+id/phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
@@ -57,7 +61,8 @@
             android:drawablePadding="10dp"
             android:hint="شماره همراه"
             android:inputType="phone"
-            android:padding="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
             android:textSize="14sp" />
@@ -65,7 +70,7 @@
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
@@ -73,10 +78,12 @@
             android:drawablePadding="10dp"
             android:hint="رمز عبور"
             android:inputType="textPassword"
-            android:padding="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:transitionName="passtrans"/>
 
         <CheckBox
             android:id="@+id/checkbox"
@@ -103,13 +110,24 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.github.florent37.shapeofview.shapes.ArcView
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/ic_signback"
+        app:shape_arc_height="-40dp"
+        app:shape_arc_position="top"
+        android:transitionName="lineartrans">
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:visibility="visible"
+        android:background="@drawable/arc_gradiant"
         android:gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -129,10 +147,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="50dp"
+            app:cornerRadius="10dp"
             android:backgroundTint="@android:color/white"
-            android:text="وارد شوید"
+            android:text="ورود"
             app:rippleColor="@color/colorPrimary"
-            android:textColor="#323232" />
+            android:textColor="#323232"
+            android:transitionName="loginbtn"/>
     </LinearLayout>
-
+    </com.github.florent37.shapeofview.shapes.ArcView>
 </RelativeLayout>
