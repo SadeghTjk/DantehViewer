@@ -16,7 +16,8 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
-        android:theme="@style/NavigationItemNoRipple"
+        android:theme="@style/ShapeAppearanceOverlay.MyApp.nav"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.nav"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

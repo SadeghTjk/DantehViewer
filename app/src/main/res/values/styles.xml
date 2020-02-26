@@ -11,6 +11,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:fontFamily">@font/yekanweb</item>
+        <item name="navigationViewStyle">@style/Widget.MyApp.Materialnav</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.Item" parent="">
@@ -36,12 +37,16 @@
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="navStyle" parent="">
+    <style name="ShapeAppearanceOverlay.MyApp.nav" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">24dp</item>
         <item name="cornerSizeTopLeft">16dp</item>
         <item name="cornerSizeBottomLeft">16dp</item>
         <item name="android:elevation">8dp</item>
+    </style>
+
+    <style name="Widget.MyApp.Materialnav" parent="Widget.MaterialComponents.Slider">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.nav</item>
     </style>
 
 </resources>
