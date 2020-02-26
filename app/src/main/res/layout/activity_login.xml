@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
+        android:transitionName="lineartrans"
         app:shape_arc_height="30dp"
-        app:shape_arc_position="bottom"
-        android:transitionName="lineartrans">
+        app:shape_arc_position="bottom">
 
         <LinearLayout
             android:id="@+id/linearlayout"
@@ -25,6 +25,7 @@
             android:background="@drawable/arc_gradiant"
             android:gravity="center"
             android:orientation="vertical">
+
             <com.github.florent37.shapeofview.shapes.ArcView
                 android:id="@+id/arcview2"
                 android:layout_width="match_parent"
@@ -39,12 +40,12 @@
                     android:layout_height="200dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/white"
-                    android:cropToPadding="false"
-                    android:scaleType="fitCenter"
-                    android:paddingStart="-25dp"
                     android:contentDescription="Danteh Logo"
+                    android:cropToPadding="false"
+                    android:paddingStart="-25dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/danteh_logo_trans"
-                    android:transitionName="danteh"/>
+                    android:transitionName="danteh" />
             </com.github.florent37.shapeofview.shapes.ArcView>
 
             <TextView
@@ -96,7 +97,7 @@
                 android:text="ورود"
                 android:textColor="#323232"
                 android:transitionName="loginbtn"
-                app:cornerRadius="10dp"
+                app:cornerRadius="5dp"
                 app:rippleColor="@color/colorPrimary" />
 
             <TextView
@@ -122,19 +123,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="یا عضو شوید"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signupbtn"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="ثبت نام"
-            android:background="@drawable/signup_field_backg"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="50dp"
-            android:transitionName="signupbtn"/>
+            android:background="@drawable/signup_field_backg"
+            android:text="ثبت نام"
+            android:transitionName="signupbtn"
+            app:cornerRadius="5dp" />
 
 
     </LinearLayout>

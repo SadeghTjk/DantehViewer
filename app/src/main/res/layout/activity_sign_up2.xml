@@ -13,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:shape_arc_position="bottom"
-        app:shape_arc_height="40dp">
+        app:shape_arc_height="40dp"
+        app:shape_arc_position="bottom">
+
         <ImageView
             android:id="@+id/danteh"
             android:layout_width="match_parent"
@@ -33,19 +34,20 @@
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:layout_gravity="center"
+        android:layout_margin="15dp"
         android:text="ثـبـت نـام"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
         android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:elevation="8dp"
         android:background="@android:color/transparent"
+        android:elevation="8dp"
         android:orientation="vertical">
 
         <EditText
@@ -63,7 +65,7 @@
             android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp"
+            android:textSize="17sp"
             android:transitionName="usernametrans" />
 
         <EditText
@@ -82,7 +84,7 @@
             android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp" />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/phone"
@@ -100,7 +102,7 @@
             android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp" />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/password"
@@ -118,7 +120,7 @@
             android:paddingEnd="20dp"
             android:textColor="@android:color/white"
             android:textColorHint="#ddd"
-            android:textSize="14sp"
+            android:textSize="17sp"
             android:transitionName="passtrans" />
 
         <CheckBox
@@ -127,6 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
             android:layoutDirection="rtl"
             android:text="با شرایط و قوانین موافقم."
             android:textDirection="rtl" />
@@ -184,7 +187,7 @@
                 android:text="ورود"
                 android:textColor="#323232"
                 android:transitionName="loginbtn"
-                app:cornerRadius="8dp"
+                app:cornerRadius="5dp"
                 app:rippleColor="@color/colorPrimary" />
         </LinearLayout>
     </com.github.florent37.shapeofview.shapes.ArcView>
