@@ -33,6 +33,7 @@
         android:gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/start_btn"
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="14dp"
+            android:background="@color/colorAccent"
             android:text="شروع" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -48,7 +50,8 @@
             android:layout_gravity="center"
             android:text="لینک های قابل مشاهده: "
             android:gravity="center_horizontal"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#fff"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/avaiable_links_count"
@@ -56,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="12"
+            android:textColor="#fff"
             android:textSize="16sp" />
     </LinearLayout>
     </LinearLayout>

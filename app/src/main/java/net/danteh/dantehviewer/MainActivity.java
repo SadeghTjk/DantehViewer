@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     public final static String TAG = "DANTEH VIEW";
     Context context;
     private int clickedNavItem = 0;
+    public static ParseLiveQueryClient parseLiveQueryClient;
     // public SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
     @Override
@@ -91,7 +92,30 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         loginIntent = new Intent(MainActivity.this, LoginActivity.class);
 
         MainViewModel model = new ViewModelProvider(this).get(MainViewModel.class);
-        model.setupLiveQuery().observe(this, s -> { });
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        parseLiveQueryClient.registerListener(new ParseLiveQueryClientCallbacks() {
+            @Override
+            public void onLiveQueryClientConnected(ParseLiveQueryClient client) {
+                Log.e(TAG, "onLiveQueryClientConnected: CONNECTED");
+            }
+
+            @Override
+            public void onLiveQueryClientDisconnected(ParseLiveQueryClient client, boolean userInitiated) {
+                Log.e(TAG, "onLiveQueryClientDisconnected: " + userInitiated);
+            }
+
+            @Override
+            public void onLiveQueryError(ParseLiveQueryClient client, LiveQueryException reason) {
+                Log.e(TAG, "onLiveQueryError: " + reason.getMessage() + "\n" + client.toString());
+                reason.printStackTrace();
+            }
+
+            @Override
+            public void onSocketError(ParseLiveQueryClient client, Throwable reason) {
+                Log.e(TAG, "onSocketError: " + reason.getMessage());
+                reason.printStackTrace();
+            }
+        });
 
         if (currentUser != null) {
             Toast.makeText(context, "Welcome " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
