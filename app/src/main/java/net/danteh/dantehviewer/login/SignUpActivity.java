@@ -33,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up2);
 
         email_input = findViewById(R.id.email);
         password_input = findViewById(R.id.password);
@@ -47,10 +47,10 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(SignUpActivity.this, "Sign Up Button Clicked", Toast.LENGTH_LONG).show();
-                name = name_input.getText().toString().toLowerCase();
-                email = email_input.getText().toString().toLowerCase();
-                pass = password_input.getText().toString();
-                phone = phone_input.getText().toString();
+                name = name_input.getText().toString().toLowerCase().trim();
+                email = email_input.getText().toString().toLowerCase().trim();
+                pass = password_input.getText().toString().trim();
+                phone = phone_input.getText().toString().trim();
 
                 if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || pass.isEmpty())
                     Toast.makeText(SignUpActivity.this, "لطفا فرم را کامل پر کنید.", Toast.LENGTH_LONG).show();
@@ -66,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                             if (e == null) {
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 startActivity(i);
+                                finish();
 
                             } else {
                                 if (e.getCode() == 202)
