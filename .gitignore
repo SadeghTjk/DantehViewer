@@ -62,3 +62,4 @@ local.properties
 .gradle/5.4.1/executionHistory/executionHistory.lock
 .gradle/5.4.1/executionHistory/executionHistory.bin
 .idea/workspace.xml
+app/src/main/java/net/danteh/dantehviewer/DantehApplication.java
