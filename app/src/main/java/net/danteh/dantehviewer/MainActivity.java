@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                     case R.id.logout:
                         ParseUser.logOutInBackground();
                         startActivity(loginIntent);
+                        finish();
                         break;
                 }
                 super.onDrawerClosed(drawerView);
@@ -202,8 +203,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         });
 
         //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-
     }
 
     private void updateNav() {
