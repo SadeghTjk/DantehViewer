@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (user != null) {
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(i);
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "SignIn:" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -79,8 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                         Pair.create(email, "usernametrans"),
                         Pair.create(password,"passtrans"));
                 startActivity(i, transitionActivityOptions.toBundle());
-                finish();
-
             }
         });
     }
