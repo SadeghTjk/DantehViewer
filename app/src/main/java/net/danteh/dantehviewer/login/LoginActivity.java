@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.florent37.shapeofview.shapes.ArcView;
+import com.google.android.material.button.MaterialButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -26,27 +28,25 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText email, password;
     CheckBox checkBox;
-    Button signin;
-    ImageButton fb;
+    Button signIn;
+    MaterialButton signUp;
     LinearLayout linearlayout;
     ArcView arcView;
+    ImageView dantehView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        fb = findViewById(R.id.fb);
+        signUp = findViewById(R.id.signupbtn);
         email = findViewById(R.id.user_input_login);
         password = findViewById(R.id.password_input_login);
         linearlayout = findViewById(R.id.linearlayout);
         arcView = findViewById(R.id.arcview);
+//      checkBox = (CheckBox)findViewById(R.id.checkbox);
+        signIn = findViewById(R.id.loginbtn);
+        dantehView = findViewById(R.id.danteh);
 
-//        checkBox = (CheckBox)findViewById(R.id.checkbox);
-//
-        signin = findViewById(R.id.loginbtn);
-
-        //signup = findViewById(R.id.signup);
-
-        signin.setOnClickListener(new View.OnClickListener() {
+        signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String mail = email.getText().toString();
@@ -70,15 +70,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        fb.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,
-                        Pair.create(signin, "loginbtn"),
+                        Pair.create(signIn, "loginbtn"),
                         Pair.create(email, "usernametrans"),
-                        Pair.create(password,"passtrans"));
+                        Pair.create(signUp,"signupbtn"),
+                        Pair.create(dantehView,"danteh"),
+                        Pair.create(password, "passtrans"));
                 startActivity(i, transitionActivityOptions.toBundle());
             }
         });
