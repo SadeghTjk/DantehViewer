@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DantehViewer.iml" filepath="$PROJECT_DIR$/DantehViewer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DantehViewer.iml" filepath="$PROJECT_DIR$/DantehViewer.iml" group="DantehViewer" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="DantehViewer/app" />
     </modules>
   </component>
 </project>

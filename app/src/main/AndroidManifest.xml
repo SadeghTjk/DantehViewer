@@ -22,14 +22,13 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="com.parse.push.gcm_sender_id"
             android:value="id:336238375701" />
-
         <activity android:name=".login.SignUpActivity">
 
         </activity>
         <activity android:name=".login.LoginActivity">
 
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

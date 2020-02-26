@@ -7,7 +7,6 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.SaveCallback;
-import com.parse.livequery.ParseLiveQueryClient;
 
 import ir.tapsell.sdk.Tapsell;
 
@@ -20,7 +19,7 @@ public class DantehApplication extends Application {
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("NotTodaySatanNotToday")
-                .clientKey("DantehView")
+                .clientKey("...")
                 .server("http://178.63.245.234:1337/parse/")
                 .build()
         );
