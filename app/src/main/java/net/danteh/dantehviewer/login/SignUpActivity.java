@@ -2,10 +2,12 @@ package net.danteh.dantehviewer.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,7 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     EditText email_input, password_input, name_input, phone_input;
     CheckBox checkBox_input;
-    MaterialButton signup, signin;
+    MaterialButton signUp, signIn;
     String name, email, pass, phone;
 
     @Override
@@ -40,10 +42,10 @@ public class SignUpActivity extends AppCompatActivity {
         name_input = findViewById(R.id.name);
         phone_input = findViewById(R.id.phone);
         checkBox_input = findViewById(R.id.checkbox);
-        signup = findViewById(R.id.signup);
-        signin = findViewById(R.id.signin);
+        signUp = findViewById(R.id.signup);
+        signIn = findViewById(R.id.signin);
 
-        signup.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(SignUpActivity.this, "Sign Up Button Clicked", Toast.LENGTH_LONG).show();
@@ -83,11 +85,16 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        signin.setOnClickListener(new View.OnClickListener() {
+        signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(i);
+                Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this,
+                        Pair.create(signIn, "loginbtn"),
+                        Pair.create(name_input, "usernametrans"),
+                        Pair.create(signUp,"signupbtn"),
+                        Pair.create(password_input, "passtrans"));
+                startActivity(i, transitionActivityOptions.toBundle());
             }
         });
 

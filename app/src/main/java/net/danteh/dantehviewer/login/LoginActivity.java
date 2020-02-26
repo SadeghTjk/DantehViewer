@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                         Pair.create(signIn, "loginbtn"),
                         Pair.create(email, "usernametrans"),
                         Pair.create(signUp,"signupbtn"),
-                        Pair.create(dantehView,"danteh"),
                         Pair.create(password, "passtrans"));
                 startActivity(i, transitionActivityOptions.toBundle());
             }
