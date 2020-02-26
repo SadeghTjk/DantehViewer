@@ -6,24 +6,17 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:theme="@style/statusBarStyle"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
 
     <com.github.florent37.shapeofview.shapes.ArcView
         android:id="@+id/arcview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp"
+        android:elevation="8dp"
         app:shape_arc_height="30dp"
         app:shape_arc_position="bottom"
         android:transitionName="lineartrans">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="650dp"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_login"
-            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linearlayout"
@@ -32,11 +25,32 @@
             android:background="@drawable/arc_gradiant"
             android:gravity="center"
             android:orientation="vertical">
+            <com.github.florent37.shapeofview.shapes.ArcView
+                android:id="@+id/arcview2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                app:shape_arc_height="30dp"
+                app:shape_arc_position="bottom">
+
+                <ImageView
+                    android:id="@+id/danteh"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/white"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    android:paddingStart="-25dp"
+                    android:contentDescription="Danteh Logo"
+                    android:src="@drawable/danteh_logo_trans"
+                    android:transitionName="danteh"/>
+            </com.github.florent37.shapeofview.shapes.ArcView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="?actionBarSize"
+                android:layout_margin="30dp"
                 android:text="ورود به حساب"
                 android:textColor="#fff"
                 android:textSize="30sp"
@@ -57,13 +71,14 @@
                 android:textSize="17sp"
                 android:transitionName="usernametrans" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_input_login"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:layout_margin="20dp"
                 android:background="@drawable/rounded_corner"
-                android:hint="پسوورد"
+                android:baselineAligned="false"
+                android:hint="رمز عبور"
                 android:inputType="textPassword"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -99,38 +114,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
         android:gravity="center"
+
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="یا ثبت نام کنید" />
+            android:text="یا عضو شوید"
+            android:textStyle="bold"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/google" />
-
-            <ImageButton
-                android:id="@+id/fb"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/facebook_box" />
-
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/twitter" />
-        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signupbtn"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="ثبت نام"
+            android:background="@drawable/signup_field_backg"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="50dp"
+            android:transitionName="signupbtn"/>
 
 
     </LinearLayout>
