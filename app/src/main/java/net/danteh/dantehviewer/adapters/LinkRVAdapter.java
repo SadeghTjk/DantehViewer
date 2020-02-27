@@ -61,7 +61,7 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
             public void onClick(View view) {
 
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                builder1.setMessage("واقعا میخوای پاکش کنی؟");
+                builder1.setMessage("واقعاً میخوای پاکش کنی؟");
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
                         "آره",
@@ -84,7 +84,7 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
                             }
                         })
                         .setNegativeButton(
-                        "نح",
+                        "نه",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
