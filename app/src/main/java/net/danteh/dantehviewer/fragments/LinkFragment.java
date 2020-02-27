@@ -10,7 +10,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.URLUtil;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -21,23 +20,20 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import net.danteh.dantehviewer.R;
 
-import static net.danteh.dantehviewer.MainActivity.TAG;
-
 public class LinkFragment extends Fragment {
 
     private MaterialButton submit_btn;
     private TextInputEditText urlname_input, url_input, linkShowCount;
-    private TextInputLayout linkCounterInput,urlInputLayuot;
+    private TextInputLayout linkCounterInput, urlInputLayuot;
     private String urlname, url;
-    private CheckBox googleOnly,selfShow;
-    int num,showCount;
-
+    private CheckBox googleOnly, selfShow;
+    private int num, showCount;
+    private boolean isUrlValid;
     private OnFragmentInteractionListener mListener;
 
     public LinkFragment() {
@@ -104,10 +100,14 @@ public class LinkFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().equals("")) {
-                    if (Patterns.WEB_URL.matcher(editable.toString()).matches())
+                    if (Patterns.WEB_URL.matcher(editable.toString()).matches()) {
                         urlInputLayuot.setError(null);
-                    else urlInputLayuot.setError("لینک صحیح وارد کنید.");
-                }
+                        isUrlValid = true;
+                    } else {
+                        isUrlValid = false;
+                        urlInputLayuot.setError("لینک صحیح وارد کنید.");
+                    }
+                } else urlInputLayuot.setError(null);
             }
         });
 
@@ -120,26 +120,31 @@ public class LinkFragment extends Fragment {
 //                if (mListener != null) {
 //                    mListener.onFragmentInteraction(urlname, url);
 //                }
-                Log.e("link submit: ", "onClick: "+url+" :: "+urlname );
-                ParseObject alink = new ParseObject("Links");
-                alink.put("urlName",urlname);
-                alink.put("URL",url);
-                alink.put("createdBy", ParseUser.getCurrentUser());
-                alink.put("viewCount",showCount);
-                alink.put("googleOnly",googleOnly.isChecked());
-                alink.put("selfShow",selfShow.isChecked());
-                alink.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
-                            url_input.setText("");
+
+                if (!urlname.isEmpty() && !url.isEmpty() && isUrlValid) {
+                    Log.e("link submit: ", "onClick: " + url + " :: " + urlname);
+                    ParseObject alink = new ParseObject("Links");
+                    alink.put("urlName", urlname);
+                    alink.put("URL", url);
+                    alink.put("createdBy", ParseUser.getCurrentUser());
+                    alink.put("viewCount", showCount);
+                    alink.put("googleOnly", googleOnly.isChecked());
+                    alink.put("selfShow", selfShow.isChecked());
+                    alink.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
+                                urlname_input.setText("");
+                            } else {
+                                Toast.makeText(requireActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            Toast.makeText(requireActivity(), ""+e.getCode() +" : " +e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                } else if (!isUrlValid)
+                    Toast.makeText(getActivity(), "لینک وارد شده صحیح نیست!", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(), "نام لینک را وارد نکرده اید!", Toast.LENGTH_SHORT).show();
             }
         });
 
