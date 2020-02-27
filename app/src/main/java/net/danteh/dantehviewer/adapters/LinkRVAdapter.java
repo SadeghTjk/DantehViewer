@@ -1,6 +1,5 @@
 package net.danteh.dantehviewer.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
     Context context;
     List<ParseObject> links = new ArrayList<>();
     FragmentManager manager;
+
     public LinkRVAdapter(Context context, List<ParseObject> links, FragmentManager manager) {
         this.context = context;
         this.links = links;
@@ -50,9 +50,9 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Edit Link", Toast.LENGTH_SHORT).show();
-                EditLinkDialog dialog = new EditLinkDialog(position,model.getObjectId());
+                EditLinkDialog dialog = new EditLinkDialog(position, model.getObjectId());
                 dialog.setCancelable(false);
-                dialog.show(manager,"edit");
+                dialog.show(manager, "edit");
 
             }
         });
@@ -66,8 +66,7 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
                 builder1.setPositiveButton(
                         "آره",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id)
-                            {
+                            public void onClick(DialogInterface dialog, int id) {
                                 links.remove(position);
                                 model.deleteInBackground(new DeleteCallback() {
                                     @Override
@@ -84,12 +83,12 @@ public class LinkRVAdapter extends RecyclerView.Adapter<LinkRVAdapter.linksviewh
                             }
                         })
                         .setNegativeButton(
-                        "نه",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                                "نه",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
 
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
