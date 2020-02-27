@@ -44,13 +44,11 @@ public class LinkFragment extends Fragment {
     private String urlname, url;
     int num;
 
-
     private OnFragmentInteractionListener mListener;
 
     public LinkFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,13 +106,14 @@ public class LinkFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().isEmpty())
-                    urlInputLayuot.setError(null);
-                else if ( Patterns.WEB_URL.matcher(editable.toString()).matches())
-                    urlInputLayuot.setError(null);
-                else urlInputLayuot.setError("لینک صحیح وارد کنید.");
+                if (!editable.toString().equals("")) {
+                    if (Patterns.WEB_URL.matcher(editable.toString()).matches())
+                        urlInputLayuot.setError(null);
+                    else urlInputLayuot.setError("لینک صحیح وارد کنید.");
+                }
             }
         });
+
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
