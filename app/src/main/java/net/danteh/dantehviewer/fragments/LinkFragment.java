@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -28,21 +29,14 @@ import net.danteh.dantehviewer.R;
 
 import static net.danteh.dantehviewer.MainActivity.TAG;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LinkFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LinkFragment} factory method to
- * create an instance of this fragment.
- */
 public class LinkFragment extends Fragment {
 
     private MaterialButton submit_btn;
     private TextInputEditText urlname_input, url_input, linkShowCount;
     private TextInputLayout linkCounterInput,urlInputLayuot;
     private String urlname, url;
-    int num;
+    private CheckBox googleOnly,selfShow;
+    int num,showCount;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +60,9 @@ public class LinkFragment extends Fragment {
         linkShowCount = v.findViewById(R.id.link_show_count);
         linkCounterInput = v.findViewById(R.id.link_counter_input);
         urlInputLayuot = v.findViewById(R.id.url_input_layout);
+        googleOnly = v.findViewById(R.id.googleOnly_check);
+        selfShow = v.findViewById(R.id.selfshow_check);
+
         //check for view number between 0-200 per day
         linkShowCount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,7 +89,7 @@ public class LinkFragment extends Fragment {
                 }
             }
         });
-
+        //check url input
         url_input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -119,6 +116,7 @@ public class LinkFragment extends Fragment {
             public void onClick(View view) {
                 urlname = urlname_input.getText().toString().trim();
                 url = url_input.getText().toString().trim();
+                showCount = Integer.parseInt(linkShowCount.getText().toString().trim());
 //                if (mListener != null) {
 //                    mListener.onFragmentInteraction(urlname, url);
 //                }
@@ -127,14 +125,15 @@ public class LinkFragment extends Fragment {
                 alink.put("urlName",urlname);
                 alink.put("URL",url);
                 alink.put("createdBy", ParseUser.getCurrentUser());
-                alink.put("viewCount",1);
+                alink.put("viewCount",showCount);
+                alink.put("googleOnly",googleOnly.isChecked());
+                alink.put("selfShow",selfShow.isChecked());
                 alink.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
                             Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
                             url_input.setText("");
-
                         }
                         else {
                             Toast.makeText(requireActivity(), ""+e.getCode() +" : " +e.getMessage(), Toast.LENGTH_SHORT).show();
