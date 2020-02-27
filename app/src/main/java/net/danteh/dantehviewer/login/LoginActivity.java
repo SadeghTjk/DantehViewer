@@ -26,19 +26,19 @@ import net.danteh.dantehviewer.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText email, password;
-    CheckBox checkBox;
+    EditText username, password;
     Button signIn;
     MaterialButton signUp;
     LinearLayout linearlayout;
     ArcView arcView;
     ImageView dantehView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         signUp = findViewById(R.id.signupbtn);
-        email = findViewById(R.id.user_input_login);
+        username = findViewById(R.id.user_input_login);
         password = findViewById(R.id.password_input_login);
         linearlayout = findViewById(R.id.linearlayout);
         arcView = findViewById(R.id.arcview);
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mail = email.getText().toString();
+                String mail = username.getText().toString().toLowerCase();
                 String pass = password.getText().toString();
 
                 if (mail.isEmpty() || pass.isEmpty())
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,
                         Pair.create(signIn, "loginbtn"),
-                        Pair.create(email, "usernametrans"),
+                        Pair.create(username, "usernametrans"),
                         Pair.create(signUp,"signupbtn"),
                         Pair.create(password, "passtrans"));
                 startActivity(i, transitionActivityOptions.toBundle());
