@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,8 @@ import com.parse.SaveCallback;
 
 import net.danteh.dantehviewer.R;
 
+import static net.danteh.dantehviewer.MainActivity.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -36,8 +40,8 @@ public class LinkFragment extends Fragment {
 
     private MaterialButton submit_btn;
     private TextInputEditText urlname_input, url_input, linkShowCount;
-    private TextInputLayout linkCounterInput;
-    private String urlname, url, strEnteredVal;
+    private TextInputLayout linkCounterInput,urlInputLayuot;
+    private String urlname, url;
     int num;
 
 
@@ -63,7 +67,7 @@ public class LinkFragment extends Fragment {
         urlname_input = v.findViewById(R.id.urlname_input);
         linkShowCount = v.findViewById(R.id.link_show_count);
         linkCounterInput = v.findViewById(R.id.link_counter_input);
-
+        urlInputLayuot = v.findViewById(R.id.url_input_layout);
         //check for view number between 0-200 per day
         linkShowCount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -73,14 +77,13 @@ public class LinkFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                strEnteredVal = linkShowCount.getText().toString();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (!strEnteredVal.equals("")) {
-                    num = Integer.parseInt(strEnteredVal);
+                if (!editable.toString().equals("")) {
+                    num = Integer.parseInt(editable.toString());
                     if (num < 201) {
                         linkShowCount.setTextColor(Color.BLACK);
                         linkCounterInput.setError(null);
@@ -92,11 +95,31 @@ public class LinkFragment extends Fragment {
             }
         });
 
+        url_input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty())
+                    urlInputLayuot.setError(null);
+                else if ( Patterns.WEB_URL.matcher(editable.toString()).matches())
+                    urlInputLayuot.setError(null);
+                else urlInputLayuot.setError("لینک صحیح وارد کنید.");
+            }
+        });
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                urlname = urlname_input.getText().toString();
-                url = url_input.getText().toString();
+                urlname = urlname_input.getText().toString().trim();
+                url = url_input.getText().toString().trim();
 //                if (mListener != null) {
 //                    mListener.onFragmentInteraction(urlname, url);
 //                }
@@ -112,7 +135,7 @@ public class LinkFragment extends Fragment {
                         if(e == null){
                             Toast.makeText(requireActivity(), "لینک شما اضافه شد", Toast.LENGTH_SHORT).show();
                             url_input.setText("");
-                            urlname_input.setText("");
+
                         }
                         else {
                             Toast.makeText(requireActivity(), ""+e.getCode() +" : " +e.getMessage(), Toast.LENGTH_SHORT).show();

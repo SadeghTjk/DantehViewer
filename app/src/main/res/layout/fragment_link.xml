@@ -40,10 +40,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/url_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="لینک (با http یا https)"
             app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeErrorColor="@color/errorTexts"
+            app:errorTextAppearance="@style/ErrorTexts"
+            app:errorIconDrawable="@null"
             android:layout_marginTop="8dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -86,7 +90,6 @@
                     android:paddingTop="-10dp"
                     android:paddingBottom="-10dp"
                     app:boxBackgroundColor="@android:color/transparent"
-                    app:errorEnabled="true"
                     app:boxStrokeErrorColor="@color/errorTexts"
                     app:errorTextAppearance="@style/ErrorTexts"
                     app:errorIconDrawable="@null"

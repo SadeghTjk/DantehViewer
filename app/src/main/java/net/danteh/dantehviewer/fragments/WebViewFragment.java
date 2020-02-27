@@ -1,6 +1,5 @@
 package net.danteh.dantehviewer.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +30,6 @@ import net.danteh.dantehviewer.Links;
 import net.danteh.dantehviewer.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import ir.tapsell.sdk.Tapsell;
@@ -52,9 +50,9 @@ public class WebViewFragment extends Fragment {
     MutableLiveData<DataLinks> liveLinks;
     MaterialButton start_btn;
     List<Links> linksList = new ArrayList<>();
-    TextView headerCoin,linksCounter;
+    TextView headerCoin, linksCounter;
     List<ParseObject> linksObject = new ArrayList<>(), alreadyViewed = new ArrayList<>();
-    int i = 0, count =0,b;
+    int i = 0, count = 0, b;
     int point = 1;
     String AD_ID;
     ParseUser user;
@@ -96,6 +94,7 @@ public class WebViewFragment extends Fragment {
         View headerView = navigationView.getHeaderView(0);
         headerCoin = headerView.findViewById(R.id.point_counter);
 
+        progressBar.setVisibility(View.VISIBLE);
         updateSiteLinks();
 
 //        LinksViewModel linksViewModel = ViewModelProviders.of(requireActivity()).get(LinksViewModel.class);
@@ -113,12 +112,12 @@ public class WebViewFragment extends Fragment {
                     @Override
                     public void onAdAvailable(String adId) {
                         AD_ID = adId;
-                        Log.e(TAG, "onAdAvailable: " );
+                        Log.e(TAG, "onAdAvailable: ");
                     }
 
                     @Override
                     public void onError(String message) {
-                        Log.e(TAG, "onAdError: " );
+                        Log.e(TAG, "onAdError: ");
                     }
                 });
         TapsellShowOptions showOptions = new TapsellShowOptions();
@@ -172,7 +171,7 @@ public class WebViewFragment extends Fragment {
                             count--;
                             user.getRelation("viewedLinks").add(linksObject.get(i));
                             user.saveInBackground();
-                            webView.loadUrl(linksObject.get(i).getString("URL") + "/?utm_source=dantehView&utm_medium=app");
+                            //   webView.loadUrl(linksObject.get(i).getString("URL") + "/?utm_source=dantehView&utm_medium=app");
                             i++;
 //                            if (mListener != null) {
 //                                mListener.onCoinUpdates(coin);
@@ -190,12 +189,11 @@ public class WebViewFragment extends Fragment {
 
         start_btn.setOnClickListener(view -> {
             //linksList = ApiCaller.dataLinks;
-            if(i>linksObject.size()-1){
+            if (i > linksObject.size() - 1) {
                 progressBar.setVisibility(View.VISIBLE);
                 updateSiteLinks();
                 Toast.makeText(getActivity(), "لینک", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 progressBar.setVisibility(View.INVISIBLE);
                 webView.loadUrl(linksObject.get(i).getString("URL") + "/?utm_source=dantehview&utm_medium=app");
                 i++;
@@ -225,51 +223,57 @@ public class WebViewFragment extends Fragment {
         mListener = null;
     }
 
-
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onCoinUpdates(int coin);
     }
 
-    private void updateSiteLinks(){
+    private void updateSiteLinks() {
+        ArrayList<String> already = new ArrayList<>();
         ParseUser user = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query2 = user.getRelation("viewedLinks").getQuery();
         query2.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
-                    alreadyViewed = objects;
-                    Log.e(TAG, "done: "+alreadyViewed.size() + " : "+alreadyViewed.get(0).getString("URL") );
-                }
-                else
+                if (e == null) {
+                    alreadyViewed.clear();
+                    alreadyViewed.addAll(objects);
+                    for (int g = 0; g < objects.size(); g++)
+                        already.add(objects.get(g).getObjectId());
+                    Log.e(TAG, "done: " + objects.size() + " : " + objects.get(0).getObjectId() + "\n " + objects.get(0).toString());
+                } else
                     Toast.makeText(getActivity(), "query2 : " + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
         ParseQuery<ParseObject> query = new ParseQuery<>("Links");
         query.whereNotEqualTo("createdBy", ParseUser.getCurrentUser());
-        Collection<String> already = new ArrayList<>();
-
-        for(int g=0;g<alreadyViewed.size();g++)
-            already.add(alreadyViewed.get(g).getObjectId());
-
-        query.whereNotContainedIn("viewedLinks",already);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        query.whereNotContainedIn("objectId", already);
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null){
-                    linksObject = objects;
-                    count = objects.size()-1;
-                    linksCounter.setText(String.valueOf(count));
-                    progressBar.setVisibility(View.INVISIBLE);
+            public void run() {
+                Log.e(TAG, "updateSiteLinks: " + already.toString());
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            linksObject = objects;
 
-                }
-                else
-                    Toast.makeText(getActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (objects.size() == 0)
+                                count = 0;
+                            else count = objects.size() - 1;
 
+                            linksCounter.setText(String.valueOf(count));
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                        } else
+                            Toast.makeText(getActivity(), "" + e.getCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
             }
-        });
+        }, 3000);
+
 
     }
 }

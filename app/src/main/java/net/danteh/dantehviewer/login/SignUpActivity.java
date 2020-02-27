@@ -1,23 +1,18 @@
 package net.danteh.dantehviewer.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Pair;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -48,14 +43,15 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SignUpActivity.this, "Sign Up Button Clicked", Toast.LENGTH_LONG).show();
-                name = name_input.getText().toString().toLowerCase().trim();
-                email = email_input.getText().toString().toLowerCase().trim();
+                name = name_input.getText().toString().toLowerCase().trim().toLowerCase();
+                email = email_input.getText().toString().toLowerCase().trim().toLowerCase();
                 pass = password_input.getText().toString().trim();
                 phone = phone_input.getText().toString().trim();
 
                 if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || pass.isEmpty())
                     Toast.makeText(SignUpActivity.this, "لطفا فرم را کامل پر کنید.", Toast.LENGTH_LONG).show();
+                else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                    Toast.makeText(SignUpActivity.this, "ایمیل صحیح نیست!", Toast.LENGTH_LONG).show();
                 else {
                     ParseUser user = new ParseUser();
                     user.setUsername(name);
@@ -92,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this,
                         Pair.create(signIn, "loginbtn"),
                         Pair.create(name_input, "usernametrans"),
-                        Pair.create(signUp,"signupbtn"),
+                        Pair.create(signUp, "signupbtn"),
                         Pair.create(password_input, "passtrans"));
                 startActivity(i, transitionActivityOptions.toBundle());
             }

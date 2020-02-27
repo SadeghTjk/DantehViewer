@@ -55,4 +55,8 @@ dependencies {
     implementation 'com.github.parse-community:ParseLiveQuery-Android:1.1.0'
     implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.5.0'
     implementation 'com.github.florent37:shapeofview:1.4.7'
+    // Navigation
+    def nav_version = "2.3.0-alpha02"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
 }
