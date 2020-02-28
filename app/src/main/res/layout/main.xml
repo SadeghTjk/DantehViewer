@@ -43,7 +43,7 @@
                 android:text="Sync" />
         </LinearLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_frame"
             android:name="net.danteh.dantehviewer.fragments.HomeFragment"
             android:layout_width="match_parent"
