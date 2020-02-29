@@ -38,6 +38,7 @@ import com.parse.livequery.ParseLiveQueryClientCallbacks;
 import net.danteh.dantehviewer.fragments.AboutFragment;
 import net.danteh.dantehviewer.fragments.EditLinksFragment;
 import net.danteh.dantehviewer.fragments.GuideFragment;
+import net.danteh.dantehviewer.fragments.HomeFragment;
 import net.danteh.dantehviewer.fragments.LinkFragment;
 import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     User user = new User();
     ParseObject gameScore;
     String number;
-    Fragment webViewFragment, linkHomeFragment,guideFragment,aboutFragment;
+    Fragment webViewFragment, linkHomeFragment,guideFragment,aboutFragment, homeFragment;
     int i = 0;
     Intent loginIntent;
     public Retrofit retrofit = null;
@@ -122,8 +123,13 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         } else {
             startActivity(loginIntent);
         }
+
         webViewFragment = new WebViewFragment();
         linkHomeFragment = new LinkHomeFragment();
+        homeFragment = new HomeFragment();
+
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragment_frame, homeFragment, homeFragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
         //Navigation View
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
