@@ -3,54 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity"
+    app:startDestination="@id/homeFragment"
     tools:ignore="UnusedNavigation">
 
     <activity
         android:id="@+id/mainActivity"
         android:name="net.danteh.dantehviewer.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" >
-        <action
-            android:id="@+id/action_mainActivity_to_linkHomeFragment"
-            app:destination="@id/linkHomeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true" />
-        <action
-            android:id="@+id/action_mainActivity_to_aboutFragment"
-            app:destination="@id/aboutFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true" />
-        <action
-            android:id="@+id/action_mainActivity_to_webViewFragment2"
-            app:destination="@id/webViewFragment2"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true" />
-        <action
-        android:id="@+id/action_mainActivity_to_settingFragment"
-        app:destination="@id/settingFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:launchSingleTop="true" />
-        <action
-            android:id="@+id/action_mainActivity_to_guideFragment"
-            app:destination="@id/guideFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true" />
+        tools:layout="@layout/activity_main">
+
     </activity>
     <fragment
         android:id="@+id/linkHomeFragment"
@@ -79,26 +40,13 @@
             android:id="@+id/loginActivity"
             android:name="net.danteh.dantehviewer.login.LoginActivity"
             android:label="LoginActivity" >
-            <action
-                android:id="@+id/action_loginActivity_to_signUpActivity"
-                app:destination="@id/signUpActivity"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
         </activity>
         <activity
             android:id="@+id/signUpActivity"
             android:name="net.danteh.dantehviewer.login.SignUpActivity"
             android:label="activity_sign_up2"
             tools:layout="@layout/activity_sign_up2" >
-            <action
-                android:id="@+id/action_signUpActivity_to_loginActivity"
-                app:destination="@id/loginActivity"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         </activity>
         <action
             android:id="@+id/action_global_mainActivity"
@@ -109,4 +57,9 @@
         android:name="net.danteh.dantehviewer.fragments.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="net.danteh.dantehviewer.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>

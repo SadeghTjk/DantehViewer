@@ -32,6 +32,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="homeFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-307" />
+                            <option name="y" value="-124" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="linkHomeFragment">
                     <value>
                       <LayoutPositions>
@@ -52,35 +64,6 @@
                             <option name="x" value="-74" />
                             <option name="y" value="271" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_mainActivity_to_aboutFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_mainActivity_to_guideFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_mainActivity_to_linkHomeFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_mainActivity_to_settingFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_mainActivity_to_webViewFragment2">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -110,15 +93,6 @@
                                       <option name="y" value="14" />
                                     </Point>
                                   </option>
-                                  <option name="myPositions">
-                                    <map>
-                                      <entry key="action_loginActivity_to_signUpActivity">
-                                        <value>
-                                          <LayoutPositions />
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
                                 </LayoutPositions>
                               </value>
                             </entry>
@@ -130,15 +104,6 @@
                                       <option name="x" value="256" />
                                       <option name="y" value="12" />
                                     </Point>
-                                  </option>
-                                  <option name="myPositions">
-                                    <map>
-                                      <entry key="action_signUpActivity_to_loginActivity">
-                                        <value>
-                                          <LayoutPositions />
-                                        </value>
-                                      </entry>
-                                    </map>
                                   </option>
                                 </LayoutPositions>
                               </value>

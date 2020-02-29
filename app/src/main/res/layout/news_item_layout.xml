@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    >
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center|start"
+        android:src="@drawable/ic_crown" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/yekanwebbold"
+            android:text="عنوان خبر"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="middle"
+            android:lines="2"
+            android:maxLines="2"
+            android:text="لورم ایپسوم یک متن ساخته شده و بدون معنی است که برای پر کردن  فضای خالی بکار میرود. هرچند اگر متن طولانی باشد."
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

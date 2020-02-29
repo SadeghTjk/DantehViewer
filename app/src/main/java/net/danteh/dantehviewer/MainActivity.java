@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
     DrawerLayout drawerLayout;
     TextView pointCounter;
     int has = 0;
-    EditText editText;
     MaterialToolbar toolbar;
-    MaterialButton sync_btn;
     User user = new User();
     ParseObject gameScore;
     String number;
@@ -76,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
-        editText = findViewById(R.id.et);
-        sync_btn = findViewById(R.id.button);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -138,30 +134,20 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                 switch (item.getItemId()) {
                     case R.id.submit_link:
                         clickedNavItem = R.id.submit_link;
-                        sync_btn.setVisibility(View.GONE);
-                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.home_page:
                         clickedNavItem = R.id.home_page;
-                        sync_btn.setVisibility(View.VISIBLE);
-                        editText.setVisibility(View.VISIBLE);
                         break;
                     case R.id.point_collector:
                         clickedNavItem = R.id.point_collector;
-                        sync_btn.setVisibility(View.GONE);
-                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.about_us:
                         aboutFragment = new AboutFragment();
                         clickedNavItem = R.id.about_us;
-                        sync_btn.setVisibility(View.GONE);
-                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.guide:
                         guideFragment = new GuideFragment();
                         clickedNavItem = R.id.guide;
-                        sync_btn.setVisibility(View.GONE);
-                        editText.setVisibility(View.GONE);
                         break;
                     case R.id.logout:
                         clickedNavItem = R.id.logout;
@@ -180,11 +166,12 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
             public void onDrawerClosed(View drawerView) {
                 switch (clickedNavItem) {
                     case R.id.home_page:
-
+                        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.fragment_frame, homeFragment, homeFragment.getClass().getSimpleName()).addToBackStack(homeFragment.getTag()).commit();
                         break;
                     case R.id.submit_link:
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fragment_frame, linkHomeFragment, linkHomeFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                                .replace(R.id.fragment_frame, linkHomeFragment, linkHomeFragment.getClass().getSimpleName()).addToBackStack(linkHomeFragment.getTag()).commit();
                         break;
                     case R.id.point_collector:
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -192,11 +179,11 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                         break;
                     case R.id.about_us:
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fragment_frame, aboutFragment, aboutFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                                .replace(R.id.fragment_frame, aboutFragment, aboutFragment.getClass().getSimpleName()).addToBackStack(aboutFragment.getTag()).commit();
                         break;
                     case R.id.guide:
                         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fragment_frame, guideFragment, guideFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                                .replace(R.id.fragment_frame, guideFragment, guideFragment.getClass().getSimpleName()).addToBackStack(guideFragment.getTag()).commit();
                         break;
                     case R.id.logout:
                         ParseUser.logOutInBackground();
