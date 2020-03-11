@@ -26,7 +26,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.ConfigCallback;
 import com.parse.FindCallback;
+import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -44,6 +46,9 @@ import net.danteh.dantehviewer.fragments.LinkHomeFragment;
 import net.danteh.dantehviewer.fragments.WebViewFragment;
 import net.danteh.dantehviewer.login.LoginActivity;
 import net.danteh.dantehviewer.viewmodels.MainViewModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -113,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
                 reason.printStackTrace();
             }
         });
+
+        getConfigs();
 
         if (currentUser != null) {
             Toast.makeText(context, "Welcome " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
@@ -202,6 +209,22 @@ public class MainActivity extends AppCompatActivity implements LinkFragment.OnFr
         Log.e(TAG, "updateNav: " + user.getPoint());
         pointCounter.setText(String.valueOf(user.getPoint()) + " امتیاز ");
     }
+
+    private void getConfigs() {
+        ParseConfig.getInBackground(new ConfigCallback() {
+            @Override
+            public void done(ParseConfig config, ParseException e) {
+                JSONObject imageConfig = config.getJSONObject("headerConfig");
+                try{
+                    Log.d("TAG", "Yay! The URL is : "+ imageConfig.getString("url"));
+                }catch (JSONException j){
+                    j.printStackTrace();
+                }
+
+            }
+        });
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
